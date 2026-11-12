@@ -1,0 +1,173 @@
+---
+import { featuredCaseStudy as f, caseStudies } from '../../data/company';
+---
+
+<section class="cases">
+  <div class="cases__bg" aria-hidden="true"></div>
+  <div class="cases__line" aria-hidden="true"></div>
+  <div class="cases__inner">
+    <div class="section-head">
+      <div class="eyebrow">/ Blog /</div>
+      <h2 class="h2 h2--sm">Prípadové štúdie</h2>
+      <p class="lead cases__lead">
+        Či už len začínate alebo sa chystáte na zmenu, prečítajte si, ako to riešili iní a nechajte sa inšpirovať pri vašej
+        ceste vpred.
+      </p>
+    </div>
+
+    <article class="featured">
+      <img src={f.img} alt="" class="featured__img" loading="lazy" />
+      <div class="featured__body">
+        <div class="tags">{f.tags.map((t) => <span>{t}</span>)}</div>
+        <h3 class="case__title">{f.title}</h3>
+        <p>{f.text}</p>
+        <a href={f.href} class="link-arrow">Zisti viac →</a>
+      </div>
+    </article>
+
+    <div class="cases__grid">
+      {
+        caseStudies.map((c) => (
+          <article class="case">
+            <img src={c.img} alt="" loading="lazy" />
+            <div class="case__body">
+              <div class="tags">
+                {c.tags.map((t) => (
+                  <span>{t}</span>
+                ))}
+              </div>
+              <h3 class="case__title">{c.title}</h3>
+              <a href={c.href} target="_blank" rel="noopener" class="link-arrow">
+                Zisti viac →<span class="visually-hidden"> (otvorí sa v novom okne)</span>
+              </a>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .cases {
+    position: relative;
+    padding: 160px 20px;
+  }
+  .cases__bg {
+    position: absolute;
+    inset: 0;
+    background: rgb(237, 243, 252);
+    clip-path: polygon(0 70px, 100% 0, 100% calc(100% - 70px), 0 100%);
+  }
+  .cases__line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 80px;
+    background: var(--c-accent);
+    clip-path: polygon(0 100%, 100% 8px, 100% 0, 0 calc(100% - 6px));
+  }
+  .cases__inner {
+    position: relative;
+    max-width: 1240px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+  .cases .section-head {
+    max-width: 606px;
+  }
+  .cases__lead {
+    font-size: 20px;
+    color: var(--c-text-2);
+  }
+  .featured {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+    align-items: center;
+  }
+  .featured__img {
+    display: block;
+    width: 100%;
+    height: 460px;
+    border-radius: var(--radius-lg);
+    object-fit: cover;
+    background: rgb(226, 234, 248);
+  }
+  .featured__body,
+  .case__body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .featured__body p {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.4;
+    color: var(--c-text);
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--c-accent);
+  }
+  .case__title {
+    margin: 0;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1.2;
+    color: var(--c-text);
+  }
+  .cases__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: 48px 30px;
+  }
+  .case {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .case img {
+    display: block;
+    width: 100%;
+    height: 222px;
+    border-radius: var(--radius-lg);
+    object-fit: cover;
+    background: rgb(226, 234, 248);
+  }
+  .case__body {
+    padding-right: 30px;
+  }
+  @media (max-width: 900px) {
+    .featured {
+      grid-template-columns: 1fr;
+    }
+    .featured__img {
+      height: 300px;
+    }
+  }
+  @media (max-width: 760px) {
+    .cases {
+      padding: 120px 20px;
+    }
+    .cases__lead {
+      font-size: 18px;
+    }
+    .featured__img {
+      height: 220px;
+    }
+    .case__body {
+      padding-right: 0;
+    }
+  }
+</style>

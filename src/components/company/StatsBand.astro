@@ -1,0 +1,162 @@
+---
+// Client counters on a diagonal blue band (O nás, Referencie) — variant of sections/ClientStats.
+---
+
+<section class="band" data-stats-band>
+  <div class="band__bg" aria-hidden="true"></div>
+  <div class="band__line band__line--top" aria-hidden="true"></div>
+  <div class="band__line band__line--bottom" aria-hidden="true"></div>
+  <div class="band__inner">
+    <div class="band__row">
+      <div class="band__nums">
+        <div class="stat">
+          <span class="stat__label">Viac ako</span>
+          <span class="stat__value" data-band-count="13000">13000+</span>
+          <span class="stat__label">klientov z celého Slovenska</span>
+        </div>
+        <div class="stat">
+          <span class="stat__value" data-band-count="50">50+</span>
+          <span class="stat__label">odborníkov v tíme</span>
+        </div>
+      </div>
+      <div class="band__map">
+        <img
+          src="/assets/mapa-klientov.png"
+          alt="Mapa klientov podľa krajov Slovenska"
+          width="1652"
+          height="892"
+          loading="lazy"
+        />
+      </div>
+    </div>
+    <a href="#" class="btn btn--primary btn--lg band__btn">Zobraziť mapu klientov</a>
+  </div>
+</section>
+
+<style>
+  .band {
+    position: relative;
+    margin-top: 32px;
+    padding: 160px 20px;
+    color: #fff;
+  }
+  .band__bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, var(--c-navy) 0%, var(--c-primary-light) 100%);
+    clip-path: polygon(0 90px, 100% 0, 100% calc(100% - 90px), 0 100%);
+  }
+  .band__line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 97px;
+    clip-path: polygon(0 90px, 100% 0, 100% 7px, 0 97px);
+  }
+  .band__line--top {
+    top: 0;
+    background: rgb(45, 66, 160);
+  }
+  .band__line--bottom {
+    bottom: 0;
+    background: linear-gradient(-90deg, var(--c-accent-light) 30%, var(--c-accent) 100%);
+  }
+  .band__inner {
+    position: relative;
+    max-width: 1240px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 48px;
+  }
+  .band__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 68px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  .band__nums {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    width: 248px;
+  }
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .stat__label {
+    font-size: 19px;
+    font-weight: 500;
+  }
+  .stat__value {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 56px;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .band__map {
+    flex: 1;
+    min-width: min(100%, 300px);
+    max-width: 826px;
+  }
+  .band__map img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .band__btn {
+    box-shadow: 0 25px 25px rgba(0, 0, 0, 0.14), 0 6px 14px rgba(0, 0, 0, 0.16);
+  }
+  @media (max-width: 760px) {
+    .band {
+      padding: 140px 20px;
+    }
+    .band__row {
+      gap: 40px;
+    }
+    .band__btn {
+      height: 56px;
+      padding: 0 28px;
+      font-size: 17px;
+      white-space: normal;
+      text-align: center;
+    }
+  }
+</style>
+
+<script>
+  // Count-up numbers when the band scrolls into view.
+  document.querySelectorAll<HTMLElement>('[data-stats-band]').forEach((band) => {
+    const els = Array.from(band.querySelectorAll<HTMLElement>('[data-band-count]'));
+    if (!els.length || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const set = (p: number) =>
+      els.forEach((el) => (el.textContent = `${Math.round(Number(el.dataset.bandCount) * p)}+`));
+    const run = () => {
+      const t0 = performance.now();
+      const tick = (now: number) => {
+        const p = Math.min(1, (now - t0) / 2000);
+        set(1 - Math.pow(1 - p, 3));
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    };
+    if (!('IntersectionObserver' in window)) return;
+    set(0);
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          io.disconnect();
+          run();
+        }
+      },
+      { threshold: 0.3 },
+    );
+    io.observe(band);
+  });
+</script>

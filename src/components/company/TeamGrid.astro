@@ -1,0 +1,139 @@
+---
+import { teamGroups, initials } from '../../data/company';
+---
+
+<section class="team">
+  <h1 class="team__title">Ľudia v Osobnyudaj.sk</h1>
+  {
+    teamGroups.map((g) => (
+      <div class="team__group">
+        <h2 class="team__group-title">{g.title}</h2>
+        <ul class="team__grid">
+          {g.people.map((p) => (
+            <li class="person">
+              {p.photo ? (
+                <img src={p.photo} alt={p.name} width="288" height="288" loading="lazy" />
+              ) : (
+                <div class="person__initials" aria-hidden="true">
+                  {initials(p.name)}
+                </div>
+              )}
+              <div class="person__name">{p.name}</div>
+              {p.role && <div class="person__role">{p.role}</div>}
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))
+  }
+</section>
+
+<style>
+  .team {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 96px 20px 160px;
+    box-sizing: content-box;
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
+  }
+  .team__title {
+    margin: 0;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: var(--c-navy);
+  }
+  .team__group {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  .team__group-title {
+    margin: 0;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    color: var(--c-navy);
+  }
+  .team__grid {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+    gap: 48px 30px;
+  }
+  .person {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .person img,
+  .person__initials {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    border-radius: var(--radius-lg);
+    background: var(--c-pale);
+    margin-bottom: 16px;
+  }
+  .person img {
+    object-fit: cover;
+    object-position: 50% 20%;
+  }
+  .person__initials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 48px;
+    color: var(--c-primary-light);
+  }
+  .person__name {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1.2;
+    color: var(--c-navy);
+  }
+  .person__role {
+    margin-top: 4px;
+    font-size: 16px;
+    line-height: 1.4;
+    color: var(--c-text-2);
+  }
+  @media (max-width: 760px) {
+    .team {
+      padding: 64px 20px 112px;
+      gap: 48px;
+    }
+    .team__title {
+      font-size: 34px;
+    }
+    .team__group-title {
+      font-size: 24px;
+    }
+    .team__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 32px 16px;
+    }
+    .person__name {
+      font-size: 16px;
+    }
+    .person__role {
+      font-size: 14px;
+    }
+    .person__initials {
+      font-size: 36px;
+    }
+  }
+</style>

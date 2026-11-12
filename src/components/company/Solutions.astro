@@ -1,0 +1,195 @@
+---
+import { solutionSegments, solutionServices } from '../../data/company';
+
+const blocks = [
+  {
+    title: 'Poskytujeme služby pre široké spektrum zákazníkov',
+    text: 'Každý typ organizácie má svoje špecifiká – preto prispôsobujeme riešenia tak, aby zodpovedali konkrétnym potrebám. Či ide o samosprávu, školu, podnik alebo e-shop, vždy hľadáme cestu, ktorá prináša výsledok.',
+    links: solutionSegments,
+    img: '/assets/ref-segmenty.png',
+    alt: 'Letecký pohľad na historické centrum mesta',
+    reverse: false,
+  },
+  {
+    title: 'Naše služby',
+    text: 'Prinášame komplexnú ochranu pre vašu organizáciu – od osobných údajov a kybernetickej bezpečnosti, až po školenia a praktické riešenia v oblasti prevencie a bezpečnosti. Naše služby sú navrhnuté tak, aby vám ušetrili čas, znížili riziká a poskytli istotu v každodennom fungovaní.',
+    links: solutionServices,
+    img: '/assets/ref-sluzby.png',
+    alt: 'Študentka v školskej triede',
+    reverse: true,
+  },
+];
+---
+
+<section class="sol">
+  <div class="sol__bg" aria-hidden="true"></div>
+  <div class="sol__line" aria-hidden="true"></div>
+  <div class="sol__inner">
+    <div class="section-head">
+      <div class="eyebrow">/ Produkty a riešenia /</div>
+      <h2 class="h2 h2--sm">
+        Naše služby a riešenia integrujeme do vašich systémov a procesov, aby ste zvýšili efektivitu a znížili náklady.
+      </h2>
+      <p class="lead sol__lead">
+        Prinášame praktické a overené postupy, ktoré vám uľahčia každodenné fungovanie a poskytnú istotu, že všetko prebieha
+        v súlade s aktuálnou legislatívou. Naša podpora nie je jednorazová – sprevádzame vás počas celej spolupráce.
+      </p>
+    </div>
+    <div class="sol__blocks">
+      {
+        blocks.map((b) => (
+          <div class:list={['sol__block', { 'sol__block--reverse': b.reverse }]}>
+            <div class="sol__text">
+              <h3>{b.title}</h3>
+              <p>{b.text}</p>
+              <div class="sol__links">
+                {b.links.map((col) => (
+                  <ul>
+                    {col.map((l) => (
+                      <li>
+                        <a href={l.href}>{l.label} →</a>
+                      </li>
+                    ))}
+                  </ul>
+                ))}
+              </div>
+            </div>
+            <img src={b.img} alt={b.alt} width="606" height="454" loading="lazy" />
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .sol {
+    position: relative;
+    margin-top: 128px;
+    padding: 160px 20px;
+  }
+  .sol__bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgb(237, 243, 252) 0%, rgba(237, 243, 252, 0) 100%);
+    clip-path: polygon(0 70px, 100% 0, 100% 100%, 0 100%);
+  }
+  .sol__line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 80px;
+    background: var(--c-primary);
+    clip-path: polygon(0 calc(100% - 10px), 100% 0, 100% 3px, 0 100%);
+  }
+  .sol__inner {
+    position: relative;
+    max-width: 1240px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 96px;
+  }
+  .sol .section-head {
+    max-width: 606px;
+  }
+  .sol__lead {
+    font-size: 20px;
+    color: var(--c-text-2);
+  }
+  .sol__blocks {
+    display: flex;
+    flex-direction: column;
+    gap: 128px;
+  }
+  .sol__block {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+    gap: 30px;
+    align-items: center;
+  }
+  .sol__text {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-right: 60px;
+    color: var(--c-text);
+  }
+  .sol__block--reverse .sol__text {
+    order: 2;
+    padding: 0 60px;
+  }
+  .sol__text h3 {
+    margin: 0;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 1.2;
+  }
+  .sol__text p {
+    margin: 0 0 16px;
+    font-size: 17px;
+    line-height: 1.4;
+  }
+  .sol__links {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+  }
+  .sol__links ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .sol__links a {
+    color: var(--c-accent);
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 1.4;
+  }
+  .sol__links a:hover {
+    color: var(--c-accent-hover);
+  }
+  .sol__block img {
+    display: block;
+    width: 100%;
+    height: 454px;
+    border-radius: var(--radius-lg);
+    object-fit: cover;
+  }
+  @media (max-width: 900px) {
+    .sol__text,
+    .sol__block--reverse .sol__text {
+      order: 0;
+      padding: 0;
+    }
+  }
+  @media (max-width: 760px) {
+    .sol {
+      margin-top: 96px;
+      padding: 120px 20px 96px;
+    }
+    .sol__inner {
+      gap: 64px;
+    }
+    .sol__blocks {
+      gap: 72px;
+    }
+    .sol__lead {
+      font-size: 18px;
+    }
+    .sol__block img {
+      height: 260px;
+    }
+    .sol__links {
+      gap: 16px;
+    }
+    .sol__links a {
+      font-size: 16px;
+    }
+  }
+</style>

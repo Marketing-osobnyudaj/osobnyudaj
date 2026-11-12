@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import MissionHero from '../components/company/MissionHero.astro';
+import OurStory from '../components/company/OurStory.astro';
+import QuickFacts from '../components/company/QuickFacts.astro';
+import Leadership from '../components/company/Leadership.astro';
+import StatsBand from '../components/company/StatsBand.astro';
+import Education from '../components/company/Education.astro';
+import CareerTeaser from '../components/company/CareerTeaser.astro';
+import CtaBanner from '../components/sections/CtaBanner.astro';
+import RegionalContacts from '../components/sections/RegionalContacts.astro';
+import ReferencesCarousel from '../components/sections/ReferencesCarousel.astro';
+import TrustLogos from '../components/sections/TrustLogos.astro';
+import Ratings from '../components/sections/Ratings.astro';
+import QuoteForm from '../components/sections/QuoteForm.astro';
+import { routes } from '../data/site';
+---
+
+<BaseLayout
+  title="O nás – Osobný údaj"
+  description="Už viac ako 15 rokov vytvárame služby a produkty v oblasti ochrany osobných údajov a kybernetickej bezpečnosti pre štátnu správu aj súkromné podniky."
+>
+  <MissionHero />
+  <OurStory />
+  <QuickFacts />
+  <CtaBanner />
+  <Leadership />
+  <div class="o-nas-contacts"><RegionalContacts /></div>
+  <ReferencesCarousel />
+  <StatsBand />
+  <div class="trust-tight"><TrustLogos showLink title="Dôveruje nám viac ako 13 000 spokojných klientov" /></div>
+  <Ratings />
+  <CtaBanner
+    title="Potrebujete zistiť viac informácií alebo poradiť s výberom služby?"
+    buttonLabel="Ďalšie referencie"
+    href={routes.referencie}
+  />
+  <Education />
+  <CareerTeaser />
+  <QuoteForm />
+</BaseLayout>
+
+<style>
+  /* Design: 96px under the logos (shared TrustLogos uses 128px). */
+  .trust-tight {
+    margin-bottom: -32px;
+  }
+  .o-nas-contacts {
+    margin-top: 128px;
+  }
+</style>

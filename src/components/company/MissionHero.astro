@@ -1,0 +1,85 @@
+---
+import ProofBadges from './ProofBadges.astro';
+---
+
+<section class="mission">
+  <h1 class="mission__title"><span>Našou misiou</span> je ponúkať profesionálne služby a produkty</h1>
+  <p class="mission__lead">
+    Naša vízia vychádza z presvedčenia, že úspech spoločnosti stojí predovšetkým na kvalite služieb, etike zamestnancov a
+    adekvátnej cene za služby. Už viac ako 15 rokov vytvárame služby a produkty pre štátnu správu aj súkromné podniky.
+  </p>
+  <div class="mission__proofs"><ProofBadges /></div>
+</section>
+
+<div class="banner">
+  <img
+    src="/assets/onas-banner.webp"
+    alt="Tím Osobnyudaj.sk v kancelárii"
+    width="6048"
+    height="3840"
+    fetchpriority="high"
+  />
+</div>
+
+<style>
+  .mission {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 96px 20px 64px;
+    box-sizing: content-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    text-align: center;
+  }
+  .mission__title {
+    margin: 0;
+    max-width: 820px;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: var(--c-navy);
+    text-wrap: balance;
+  }
+  .mission__title span {
+    color: var(--c-primary-light);
+  }
+  .mission__lead {
+    margin: 0;
+    max-width: 820px;
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--c-text-2);
+  }
+  .mission__proofs {
+    margin-top: 16px;
+  }
+  .banner {
+    position: relative;
+    z-index: 1;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 20px;
+    box-sizing: content-box;
+  }
+  .banner img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  @media (max-width: 760px) {
+    .mission {
+      padding-top: 64px;
+      padding-bottom: 48px;
+    }
+    .mission__title {
+      font-size: 34px;
+    }
+    .mission__lead {
+      font-size: 18px;
+    }
+  }
+</style>

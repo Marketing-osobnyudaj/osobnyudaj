@@ -1,0 +1,113 @@
+---
+import { contact } from '../../data/site';
+---
+
+<section class="job">
+  <div class="job__text">
+    <div class="eyebrow">/ Kariéra /</div>
+    <h1 class="job__title">Pridajte sa do nášho tímu</h1>
+    <p class="job__lead">
+      Zaujíma vás práca v oblasti ochrany osobných údajov a kybernetickej bezpečnosti? Hľadáme zodpovedných profesionálov,
+      ktorí nám pomôžu budovať bezpečné digitálne prostredie.
+    </p>
+    <p class="job__note">
+      Pošlite nám svoj životopis na <a href={`mailto:${contact.email}`}>{contact.email}</a> a ozveme sa vám.
+    </p>
+    <div class="job__ctas">
+      <a href={`mailto:${contact.email}?subject=%C5%BDivotopis`} class="btn btn--primary">Poslať životopis</a>
+      <a href={contact.phoneHref} class="btn job__phone">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"></path></svg>
+        {contact.phone}
+      </a>
+    </div>
+  </div>
+  <div class="job__visual">
+    <img src="/img/87a2263744af11b3.png" alt="Tím Osobnyudaj.sk" width="2000" height="1500" fetchpriority="high" />
+  </div>
+</section>
+
+<style>
+  .job {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 96px 20px 200px;
+    box-sizing: content-box;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+    gap: 48px 30px;
+    align-items: center;
+  }
+  .job__text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    color: var(--c-text-2);
+  }
+  .job__title {
+    margin: 0;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: var(--c-navy);
+    text-wrap: balance;
+  }
+  .job__lead {
+    margin: 0;
+    font-size: 20px;
+    line-height: 1.4;
+  }
+  .job__note {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.4;
+  }
+  .job__note a {
+    color: var(--c-accent);
+    font-weight: 600;
+  }
+  .job__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 8px;
+  }
+  .job__phone {
+    gap: 12px;
+    color: var(--c-accent);
+    box-shadow: inset 0 0 0 1.5px var(--c-accent);
+    background: transparent;
+  }
+  .job__phone:hover {
+    color: var(--c-accent);
+    background: rgba(224, 96, 87, 0.08);
+  }
+  .job__visual {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 40px 20px 0;
+    border-radius: var(--radius-lg);
+    background: rgb(237, 243, 252);
+    overflow: hidden;
+  }
+  .job__visual img {
+    display: block;
+    width: 100%;
+    max-width: 560px;
+    height: auto;
+  }
+  @media (max-width: 760px) {
+    .job {
+      padding: 64px 20px 120px;
+    }
+    .job__title {
+      font-size: 34px;
+    }
+    .job__lead {
+      font-size: 18px;
+    }
+  }
+</style>

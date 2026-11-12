@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactHero from '../components/company/ContactHero.astro';
+import CustomerService from '../components/company/CustomerService.astro';
+import ContactDetails from '../components/company/ContactDetails.astro';
+import RegionalContacts from '../components/sections/RegionalContacts.astro';
+---
+
+<BaseLayout
+  title="Kontakt – Osobný údaj"
+  description="Kontakty na zákaznícku podporu, špecializované oddelenia a regionálne zastúpenia Osobnyudaj.sk."
+>
+  <ContactHero />
+  <CustomerService />
+  <div class="kontakt-regions"><RegionalContacts /></div>
+  <ContactDetails />
+</BaseLayout>
+
+<style>
+  .kontakt-regions {
+    margin-top: 96px;
+  }
+</style>

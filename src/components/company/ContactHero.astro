@@ -1,0 +1,54 @@
+---
+import ProofBadges from './ProofBadges.astro';
+---
+
+<section class="c-hero">
+  <div class="c-hero__text">
+    <h1 class="c-hero__title">Kontakty</h1>
+    <p>
+      Potrebujete zistiť viac informácií, poradiť s výberom služby alebo naplánovať osobné stretnutie? Neváhajte a
+      kontaktujte nás!
+    </p>
+  </div>
+  <ProofBadges size="sm" align="start" />
+</section>
+
+<style>
+  .c-hero {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 96px 20px 48px;
+    box-sizing: content-box;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+  .c-hero__text {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 606px;
+  }
+  .c-hero__title {
+    margin: 0;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: var(--c-navy);
+  }
+  .c-hero__text p {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.4;
+    color: var(--c-text-2);
+  }
+  @media (max-width: 760px) {
+    .c-hero {
+      padding-top: 64px;
+    }
+  }
+</style>

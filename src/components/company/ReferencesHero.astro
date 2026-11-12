@@ -1,0 +1,77 @@
+---
+import { routes } from '../../data/site';
+---
+
+<section class="r-hero">
+  <div class="r-hero__text">
+    <h1 class="r-hero__title">Pomáhame firmám a inštitúciám po celom Slovensku fungovať rýchlejšie a bezpečnejšie</h1>
+    <p>Spoločne tvoríme služby a produkty, ktoré urýchľujú procesy a podporujú rast.</p>
+  </div>
+  <div class="r-hero__ctas">
+    <a href={routes.kontakt} class="btn btn--primary">Kontaktujte nás</a>
+    <a href="#cenova-ponuka" class="btn r-hero__outline">Bezplatná cenová ponuka</a>
+  </div>
+</section>
+
+<style>
+  .r-hero {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 96px 20px 64px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    text-align: center;
+  }
+  .r-hero__text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    max-width: 640px;
+  }
+  .r-hero__title {
+    margin: 0;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: var(--c-navy);
+    text-wrap: balance;
+  }
+  .r-hero__text p {
+    margin: 0;
+    max-width: 520px;
+    font-size: 20px;
+    line-height: 1.4;
+    color: var(--c-text-2);
+  }
+  .r-hero__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+  }
+  .r-hero__outline {
+    color: var(--c-accent);
+    box-shadow: inset 0 0 0 1.5px var(--c-accent);
+    background: transparent;
+  }
+  .r-hero__outline:hover {
+    color: var(--c-accent);
+    background: rgba(224, 96, 87, 0.08);
+  }
+  @media (max-width: 760px) {
+    .r-hero {
+      padding-top: 64px;
+    }
+    .r-hero__title {
+      font-size: 32px;
+    }
+    .r-hero__text p {
+      font-size: 18px;
+    }
+  }
+</style>

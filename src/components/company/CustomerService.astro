@@ -1,0 +1,223 @@
+---
+import { contact, routes } from '../../data/site';
+
+const phoneIcon =
+  '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"></path></svg>';
+const sendIcon =
+  '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13"></path><path d="M22 2 15 22l-4-9-9-4z"></path></svg>';
+---
+
+<section class="cs">
+  <div class="cs__box cs__box--info">
+    <h2 class="cs__title">Služby zákazníkom</h2>
+    <p class="cs__lead">Potrebujete poradiť s výberom služby alebo máte akékoľvek iné otázky?</p>
+    <div class="cs__links">
+      <a href={contact.phoneHref} class="cs__link"><Fragment set:html={phoneIcon} />{contact.phone}</a>
+      <a href={`${routes.home}#cenova-ponuka`} class="cs__link">Bezplatná cenová ponuka</a>
+      <a href={`mailto:${contact.email}`} class="cs__link"><Fragment set:html={sendIcon} />{contact.email}</a>
+    </div>
+    <p class="cs__hours">
+      <strong>Pracovné dni od 8:00 do 16:00 hod.</strong><br />Na e-mail odpovedáme najneskôr nasledujúci pracovný deň
+    </p>
+  </div>
+
+  <div class="cs__box cs__box--form" id="napiste">
+    <form class="cs-form" data-contact-form>
+      <h2 class="cs__title">Napíšte nám</h2>
+      <div class="cs-form__done" data-done hidden role="status">
+        Ďakujeme, ozveme sa vám najneskôr nasledujúci pracovný deň.
+      </div>
+      <div class="cs-form__fields" data-fields>
+        <label>Meno a priezvisko<input name="name" placeholder="Meno a priezvisko" autocomplete="name" /></label>
+        <label>Pracovný e-mail<input name="email" type="email" required placeholder="Pracovný e-mail" autocomplete="email" /></label>
+        <label>Telefónne číslo<input name="phone" type="tel" placeholder="+421" autocomplete="tel" /></label>
+        <label>Webstránka vašej organizácie<input name="web" placeholder="nazov@domena.sk" autocomplete="url" /></label>
+        <label>Správa<textarea name="message" placeholder="Vaša správa" rows="3"></textarea></label>
+        <p class="cs-form__note">
+          Kliknutím na tlačidlo „Odoslať“ súhlasím so spracovaním uvedených osobných údajov na marketingové účely a
+          potvrdzujem, že mám viac ako 18 rokov.
+        </p>
+        <button type="submit" class="cs-form__submit">Odoslať</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<style>
+  .cs {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 20px;
+    box-sizing: content-box;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .cs__box {
+    border-radius: var(--radius);
+    background: rgb(237, 243, 252);
+  }
+  .cs__box--info {
+    padding: 72px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+    color: var(--c-text-2);
+  }
+  .cs__box--form {
+    padding: 40px 20px 56px;
+    display: flex;
+    justify-content: center;
+    scroll-margin-top: 24px;
+  }
+  .cs__title {
+    margin: 0;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    color: var(--c-navy);
+  }
+  .cs__lead {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.4;
+  }
+  .cs__links {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    max-width: 520px;
+    margin-top: 8px;
+  }
+  .cs__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    height: 56px;
+    padding: 0 24px;
+    background: #fff;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--c-accent);
+    box-shadow: 0 6px 14px rgba(119, 138, 178, 0.08), 0 0 2px rgba(163, 170, 181, 0.7);
+  }
+  .cs__link:hover {
+    color: var(--c-accent-hover);
+  }
+  .cs__link :global(svg) {
+    flex-shrink: 0;
+  }
+  .cs__hours {
+    margin: 8px 0 0;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .cs-form {
+    width: 100%;
+    max-width: 520px;
+    padding: 56px 52px 40px;
+    border-radius: var(--radius);
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    box-shadow: 0 25px 25px rgba(119, 138, 178, 0.07), 0 6px 14px rgba(119, 138, 178, 0.08),
+      0 0 2px rgba(163, 170, 181, 0.7);
+  }
+  .cs-form .cs__title {
+    text-align: center;
+    margin-bottom: 12px;
+  }
+  .cs-form__fields {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .cs-form__fields[hidden] {
+    display: none;
+  }
+  .cs-form label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--c-text-2);
+  }
+  .cs-form input,
+  .cs-form textarea {
+    height: 44px;
+    border: 0;
+    border-radius: 2px;
+    background: rgb(243, 244, 246);
+    padding: 0 14px;
+    font: 400 15px var(--font-body);
+    color: var(--c-text-2);
+    outline-color: var(--c-primary-light);
+  }
+  .cs-form textarea {
+    height: auto;
+    padding: 12px 14px;
+    resize: vertical;
+  }
+  .cs-form__note {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--c-text-2);
+  }
+  .cs-form__submit {
+    height: 44px;
+    border: 0;
+    border-radius: 2px;
+    background: var(--c-accent);
+    color: #fff;
+    font: 600 15px var(--font-body);
+    cursor: pointer;
+  }
+  .cs-form__submit:hover {
+    background: var(--c-accent-hover);
+  }
+  .cs-form__done {
+    padding: 24px;
+    border-radius: var(--radius);
+    background: rgb(237, 243, 252);
+    text-align: center;
+    font-size: 16px;
+    color: var(--c-text-2);
+  }
+  @media (max-width: 760px) {
+    .cs__box--info {
+      padding: 48px 16px;
+    }
+    .cs__box--form {
+      padding: 24px 12px 32px;
+    }
+    .cs-form {
+      padding: 40px 20px 28px;
+    }
+    .cs__link {
+      font-size: 16px;
+      padding: 0 12px;
+      gap: 10px;
+    }
+  }
+</style>
+
+<script>
+  // TODO: backend — send the contact form; for now just show the success state.
+  document.querySelectorAll<HTMLFormElement>('[data-contact-form]').forEach((form) =>
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      form.querySelector<HTMLElement>('[data-fields]')!.hidden = true;
+      form.querySelector<HTMLElement>('[data-done]')!.hidden = false;
+    }),
+  );
+</script>

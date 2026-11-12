@@ -1,0 +1,80 @@
+---
+import { quickFacts } from '../../data/company';
+---
+
+<section class="facts">
+  <h2 class="h2 h2--sm">Rýchle fakty</h2>
+  <div class="facts__grid">
+    {
+      quickFacts.map((f) => (
+        <div class="fact">
+          <div class="fact__head">
+            <img src={f.icon} alt="" width="32" height="32" />
+            <h3>{f.title}</h3>
+          </div>
+          <p>{f.text}</p>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .facts {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 128px 20px 0;
+    box-sizing: content-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 64px;
+    text-align: center;
+  }
+  .facts__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+    gap: 64px 30px;
+    width: 100%;
+    text-align: left;
+  }
+  .fact {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-right: 30px;
+    color: var(--c-text-2);
+  }
+  .fact__head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .fact__head img {
+    flex-shrink: 0;
+  }
+  .fact h3 {
+    margin: 0;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1.2;
+  }
+  .fact p {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.4;
+  }
+  @media (max-width: 760px) {
+    .facts {
+      padding-top: 96px;
+      gap: 40px;
+    }
+    .facts__grid {
+      gap: 40px;
+    }
+    .fact {
+      padding-right: 0;
+    }
+  }
+</style>

@@ -1,0 +1,345 @@
+---
+// Referencie page variant of sections/ReferencesCarousel with segment / service filters.
+import { references, referenceSegments, referenceServices } from '../../data/company';
+import { routes } from '../../data/site';
+
+const loop = [...references, ...references];
+const chevron =
+  '<svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><path d="M9 13l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>';
+---
+
+<section class="rx" data-ref-explorer>
+  <div class="section-head section-head--center">
+    <div class="eyebrow">/ Referencie /</div>
+    <h2 class="h2 rx__title">Dôveruje nám viac ako 13 000 klientov na celom Slovensku</h2>
+    <p class="lead rx__lead">
+      Vrátane veľkých aj malých miest, základných a stredných škôl, spolupracujeme aj s podnikateľmi z rôznych oblastí.
+    </p>
+    <a href={routes.blog} class="rx__blog">Naučte sa viac v našom blogu →</a>
+  </div>
+
+  <div class="rx__filters">
+    <label class="rx__select">
+      <span class="visually-hidden">Segment</span>
+      <select data-filter="segment">
+        <option value="">Všetky segmenty</option>
+        {referenceSegments.map((s) => <option>{s}</option>)}
+      </select>
+      <Fragment set:html={chevron} />
+    </label>
+    <label class="rx__select">
+      <span class="visually-hidden">Služba</span>
+      <select data-filter="service">
+        <option value="">Všetky služby</option>
+        {referenceServices.map((s) => <option>{s}</option>)}
+      </select>
+      <Fragment set:html={chevron} />
+    </label>
+  </div>
+
+  <div class="rx__row">
+    <button type="button" class="rx__arrow" aria-label="Predchádzajúce" data-prev>‹</button>
+    <div class="rx__viewport">
+      <div class="rx__track" data-track>
+        {
+          loop.map((r, i) => (
+            <figure
+              class="ref"
+              data-segment={r.segment}
+              data-services={r.services.join('|')}
+              data-copy={i >= references.length ? '' : undefined}
+            >
+              <div class="ref__logo">
+                <img src={r.logo} alt={r.name} loading="lazy" />
+              </div>
+              <blockquote>{r.quote}</blockquote>
+              <figcaption>
+                <div class="ref__rating">
+                  5,0 / 5 <span class="stars" role="img" aria-label="5 z 5 hviezdičiek">★★★★★</span>
+                </div>
+                <div class="ref__name">{r.name}</div>
+              </figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </div>
+    <button type="button" class="rx__arrow" aria-label="Ďalšie" data-next>›</button>
+  </div>
+  <p class="rx__empty" data-empty hidden role="status">Pre zvolený filter zatiaľ nemáme zverejnené referencie.</p>
+  <div class="rx__dots" data-dots></div>
+</section>
+
+<style>
+  .rx {
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 128px 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 56px;
+  }
+  .rx__title {
+    max-width: 640px;
+  }
+  .rx__lead {
+    max-width: 606px;
+    font-size: 20px;
+    color: var(--c-text-2);
+  }
+  .rx__blog {
+    color: var(--c-accent);
+    font-weight: 600;
+    font-size: 15px;
+  }
+  .rx__filters {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 394px));
+    justify-content: center;
+    gap: 30px;
+    width: 100%;
+    margin-top: -16px;
+  }
+  .rx__select {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 56px;
+    border-radius: var(--radius-lg);
+    background: rgba(222, 233, 250, 0.5);
+    color: var(--c-accent);
+  }
+  .rx__select select {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    padding: 0 52px 0 16px;
+    border: 0;
+    border-radius: var(--radius-lg);
+    background: transparent;
+    appearance: none;
+    font: 400 17px var(--font-body);
+    color: var(--c-accent);
+    cursor: pointer;
+    outline-color: var(--c-primary-light);
+  }
+  .rx__select :global(svg) {
+    position: absolute;
+    right: 12px;
+    pointer-events: none;
+  }
+  .rx__row {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .rx__arrow {
+    flex-shrink: 0;
+    width: 32px;
+    height: 48px;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    color: rgb(200, 204, 212);
+    font-size: 28px;
+  }
+  .rx__arrow:hover {
+    color: var(--c-text);
+  }
+  .rx__viewport {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+  }
+  .rx__track {
+    --per: 3;
+    --gap: 36px;
+    --i: 0;
+    display: flex;
+    gap: var(--gap);
+    transition: transform 0.45s ease;
+    transform: translateX(calc(var(--i) * -1 * ((100% - var(--gap) * (var(--per) - 1)) / var(--per) + var(--gap))));
+  }
+  .ref {
+    flex: 0 0 calc((100% - var(--gap) * (var(--per) - 1)) / var(--per));
+    min-height: 606px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 36px 30px 40px;
+    border-radius: var(--radius-lg);
+    background: rgb(236, 242, 253);
+  }
+  .ref[hidden],
+  .rx__row[hidden],
+  .rx__dots[hidden] {
+    display: none;
+  }
+  .ref__logo {
+    height: 110px;
+    display: flex;
+    align-items: center;
+  }
+  .ref__logo img {
+    max-height: 100px;
+    max-width: 160px;
+    width: auto;
+    height: auto;
+  }
+  .ref blockquote {
+    margin: 0;
+    flex: 1;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--c-text-2);
+  }
+  .ref figcaption {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 32px;
+  }
+  .ref__rating {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 16px;
+    color: rgb(232, 178, 0);
+  }
+  .ref__rating .stars {
+    letter-spacing: 1px;
+    font-size: 17px;
+  }
+  .ref__name {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: -0.02em;
+    color: var(--c-text);
+  }
+  .rx__empty {
+    margin: 0;
+    font-size: 17px;
+    color: var(--c-muted);
+  }
+  .rx__dots {
+    display: flex;
+    gap: 8px;
+  }
+  .rx__dots :global(button) {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border: 0;
+    border-radius: 4px;
+    cursor: pointer;
+    background: rgb(200, 214, 240);
+    transition: width 0.2s;
+  }
+  .rx__dots :global(button[aria-current='true']) {
+    width: 24px;
+    background: var(--c-primary);
+  }
+  @media (max-width: 1099px) {
+    .rx__track {
+      --per: 2;
+    }
+  }
+  @media (max-width: 759px) {
+    .rx {
+      padding-top: 96px;
+      gap: 40px;
+    }
+    .rx__filters {
+      margin-top: 0;
+      gap: 16px;
+    }
+    .rx__lead {
+      font-size: 18px;
+    }
+    .rx__track {
+      --per: 1;
+    }
+    .ref {
+      min-height: 0;
+    }
+  }
+</style>
+
+<script>
+  // Filterable references carousel.
+  document.querySelectorAll<HTMLElement>('[data-ref-explorer]').forEach((root) => {
+    const track = root.querySelector<HTMLElement>('[data-track]')!;
+    const dots = root.querySelector<HTMLElement>('[data-dots]')!;
+    const empty = root.querySelector<HTMLElement>('[data-empty]')!;
+    const row = track.closest<HTMLElement>('.rx__row')!;
+    const cards = Array.from(track.children) as HTMLElement[];
+    const segSel = root.querySelector<HTMLSelectElement>('[data-filter="segment"]')!;
+    const svcSel = root.querySelector<HTMLSelectElement>('[data-filter="service"]')!;
+    let i = 0;
+    let total = cards.length;
+
+    const perView = () => Number(getComputedStyle(track).getPropertyValue('--per')) || 3;
+    const max = () => Math.max(0, total - perView());
+
+    const render = () => {
+      i = Math.min(i, max());
+      track.style.setProperty('--i', String(i));
+      if (dots.children.length !== max() + 1) {
+        dots.replaceChildren(
+          ...Array.from({ length: max() + 1 }, (_, k) => {
+            const b = document.createElement('button');
+            b.type = 'button';
+            b.setAttribute('aria-label', `Snímka ${k + 1}`);
+            b.addEventListener('click', () => {
+              i = k;
+              render();
+            });
+            return b;
+          }),
+        );
+      }
+      dots.hidden = max() === 0;
+      Array.from(dots.children).forEach((d, k) => d.setAttribute('aria-current', String(k === i)));
+    };
+
+    const applyFilter = () => {
+      const seg = segSel.value;
+      const svc = svcSel.value;
+      const unfiltered = !seg && !svc;
+      const matches = cards.filter(
+        (c) => (!seg || c.dataset.segment === seg) && (!svc || (c.dataset.services ?? '').split('|').includes(svc)),
+      );
+      cards.forEach((c) => {
+        const isCopy = c.dataset.copy !== undefined;
+        // Duplicates only pad the loop when nothing is filtered.
+        const show = matches.includes(c) && (unfiltered || !isCopy);
+        c.hidden = !show;
+        c.setAttribute('aria-hidden', String(isCopy));
+      });
+      total = cards.filter((c) => !c.hidden).length;
+      row.hidden = total === 0;
+      empty.hidden = total !== 0;
+      i = 0;
+      render();
+    };
+
+    root.querySelector('[data-prev]')?.addEventListener('click', () => {
+      i = i <= 0 ? max() : i - 1;
+      render();
+    });
+    root.querySelector('[data-next]')?.addEventListener('click', () => {
+      i = i >= max() ? 0 : i + 1;
+      render();
+    });
+    segSel.addEventListener('change', applyFilter);
+    svcSel.addEventListener('change', applyFilter);
+    window.addEventListener('resize', render);
+    applyFilter();
+  });
+</script>

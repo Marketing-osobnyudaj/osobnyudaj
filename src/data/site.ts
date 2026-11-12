@@ -140,7 +140,7 @@ export const menuSegments: { title: string; href: string; img: string }[] = [
 ];
 
 export const menuPodpora = [
-  { title: 'Klientské centrum', href: routes.klientskeCentrum },
+  { title: 'Klientske centrum', href: routes.klientskeCentrum },
   { title: 'Blog', href: routes.blog },
   { title: 'Často kladené otázky', href: routes.faq },
   { title: 'Slovník pojmov', href: routes.slovnik },

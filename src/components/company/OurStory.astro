@@ -1,0 +1,216 @@
+---
+// "Náš príbeh" — story text, CEO quote and Poslanie / Hodnoty card.
+const mission =
+  'Poslaním našej spoločnosti je poskytovať klientom riešenia na kľúč, vždy v súlade so zmenami legislatívy a to čo najrýchlejšie. Naše služby poskytujeme osobne, zodpovedne a efektívne. Súčasná doba je dynamická a preto si vyžaduje silného partnera.';
+---
+
+<section class="story">
+  <div class="story__bg" aria-hidden="true">
+    <div class="story__wedge"></div>
+    <div class="story__fade"></div>
+  </div>
+  <div class="story__inner">
+    <h2 class="h2">Náš príbeh</h2>
+    <div class="story__grid">
+      <div class="story__main">
+        <div class="story__text">
+          {/* TODO: real copy — the design uses placeholder text about HubSpot. */}
+          <p>
+            V roku 2004 si kolegovia z MIT, Brian Halligan a Dharmesh Shah, všimli zásadný posun v spôsobe, akým ľudia nakupujú
+            a kupujú produkty. Kupujúci nechceli byť rušení reklamami, chceli užitočné informácie. V roku 2006 založili HubSpot,
+            aby pomohli spoločnostiam využiť tento posun na lepší rast prostredníctvom inbound marketingu.
+          </p>
+          <p>
+            Počas tejto cesty sa HubSpot rozšíril za hranice marketingu do premyslene vytvorenej, nie dláždenej sady produktov,
+            ktoré vytvárajú bezproblémový zákaznícky zážitok, ktorý dnes kupujúci očakávajú. HubSpot, odborne vedený generálnou
+            riaditeľkou Yamini Rangan, využíva svoju zákaznícku platformu postavenú na Smart CRM s umelou inteligenciou, aby
+            pomohol miliónom rastúcich organizácií lepšie rásť.
+          </p>
+        </div>
+        <figure class="ceo">
+          <img
+            src="/assets/vedenie/dopirak-portret.webp"
+            alt="Ing. Tomáš Dopirák"
+            width="258"
+            height="387"
+            loading="lazy"
+          />
+          <div class="ceo__body">
+            <blockquote>„{mission}“</blockquote>
+            <figcaption>Ing. Dopirák Tomáš<br />Generálny riaditeľ</figcaption>
+          </div>
+        </figure>
+      </div>
+      <div class="story__aside">
+        <div class="card values">
+          <div class="values__item">
+            <h3>Poslanie</h3>
+            <p>{mission}</p>
+          </div>
+          <div class="values__item">
+            <h3>Hodnoty</h3>
+            <p>
+              Hodnoty, ktorými sa naša spoločnosť riadi vo vzťahu k svojmu okoliu, charakterizuje najmä úcta a korektnosť ku
+              klientovi. V obchodných vzťahoch spoločnosť považuje etiku za súčasť svojich podnikateľských aktivít a vychádza z
+              presvedčenia, že úspech spoločnosti stojí predovšetkým na kvalite služieb, etike zamestnancov a adekvátnej cene za
+              služby.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .story {
+    position: relative;
+    padding: 96px 20px 0;
+  }
+  .story__bg {
+    --w: min(1240px, calc(100vw - 40px));
+    --e: min(60px, calc((100vw - var(--w)) / 2));
+    position: absolute;
+    top: 0;
+    left: calc(50% - var(--w) / 2 - var(--e));
+    width: calc(var(--w) + 2 * var(--e));
+    height: 650px;
+    pointer-events: none;
+  }
+  .story__wedge {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(-0.0557 * (var(--w) + var(--e)));
+    height: calc(0.0557 * (var(--w) + 2 * var(--e)) + 1px);
+    background: rgb(232, 240, 252);
+    clip-path: polygon(0 100%, 100% 0, 100% 100%);
+  }
+  .story__fade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgb(232, 240, 252) 0%,
+      rgb(234, 241, 252) 25%,
+      rgba(244, 247, 253, 0.8) 70%,
+      rgba(255, 255, 255, 0) 100%
+    );
+  }
+  .story__inner {
+    position: relative;
+    max-width: 1240px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+  .story__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+    gap: 30px;
+    align-items: start;
+  }
+  .story__main {
+    display: flex;
+    flex-direction: column;
+    gap: 96px;
+  }
+  .story__text {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    font-size: 17px;
+    line-height: 1.4;
+    color: var(--c-text-2);
+  }
+  .story__text p {
+    margin: 0;
+  }
+  .ceo {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 60px;
+    align-items: center;
+  }
+  .ceo img {
+    display: block;
+    width: 258px;
+    max-width: 100%;
+    height: 387px;
+    border-radius: var(--radius-lg);
+    object-fit: cover;
+    object-position: 50% 15%;
+    background: var(--c-pale);
+  }
+  .ceo__body {
+    flex: 1;
+    min-width: 220px;
+    max-width: 258px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    color: var(--c-text-2);
+  }
+  .ceo blockquote {
+    margin: 0;
+    font-size: 20px;
+    font-style: italic;
+    line-height: 1.4;
+  }
+  .ceo figcaption {
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+  .story__aside {
+    display: flex;
+    justify-content: center;
+  }
+  .values {
+    width: 100%;
+    max-width: 394px;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    padding: 48px;
+  }
+  .values__item {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .values h3 {
+    margin: 0;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    color: var(--c-navy);
+  }
+  .values p {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.4;
+    color: var(--c-text-2);
+  }
+  @media (max-width: 760px) {
+    .story {
+      padding-top: 64px;
+    }
+    .story__main {
+      gap: 56px;
+    }
+    .ceo {
+      gap: 32px;
+    }
+    .ceo__body {
+      max-width: none;
+    }
+    .values {
+      padding: 32px 24px;
+    }
+  }
+</style>

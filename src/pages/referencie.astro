@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ReferencesHero from '../components/company/ReferencesHero.astro';
+import StatsBand from '../components/company/StatsBand.astro';
+import Partners from '../components/company/Partners.astro';
+import CaseStudies from '../components/company/CaseStudies.astro';
+import ReferencesExplorer from '../components/company/ReferencesExplorer.astro';
+import LogosStrip from '../components/company/LogosStrip.astro';
+import Solutions from '../components/company/Solutions.astro';
+import TrustLogos from '../components/sections/TrustLogos.astro';
+import Ratings from '../components/sections/Ratings.astro';
+import CtaBanner from '../components/sections/CtaBanner.astro';
+import QuoteForm from '../components/sections/QuoteForm.astro';
+import { routes } from '../data/site';
+---
+
+<BaseLayout
+  title="Referencie – Osobný údaj"
+  description="Pomáhame firmám a inštitúciám po celom Slovensku fungovať rýchlejšie a bezpečnejšie. Referencie, prípadové štúdie a hodnotenia klientov."
+>
+  <ReferencesHero />
+  <StatsBand />
+  <div class="trust-tight"><TrustLogos showLink title="Dôveruje nám viac ako 13 000 spokojných klientov" /></div>
+  <Partners />
+  <CaseStudies />
+  <ReferencesExplorer />
+  <LogosStrip />
+  <Ratings />
+  <CtaBanner
+    title="Potrebujete zistiť viac informácií alebo poradiť s výberom služby?"
+    buttonLabel="Kontaktujte nás"
+    href={routes.kontakt}
+  />
+  <Solutions />
+  <QuoteForm />
+</BaseLayout>
+
+<style>
+  /* Design: 96px under the logos (shared TrustLogos uses 128px). */
+  .trust-tight {
+    margin-bottom: -32px;
+  }
+</style>

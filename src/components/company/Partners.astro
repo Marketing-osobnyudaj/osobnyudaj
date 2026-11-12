@@ -1,0 +1,106 @@
+---
+// Rating / ZMOS / ZHK SR strip under the logos on the Referencie page.
+---
+
+<section class="partners">
+  <div class="partner">
+    <div class="partner__avatars">
+      <img src="/img/avatar-1.jpg" alt="" width="48" height="48" />
+      <img src="/img/avatar-2.jpg" alt="" width="48" height="48" />
+      <img src="/img/avatar-3.jpg" alt="" width="48" height="48" />
+    </div>
+    <div>
+      <div class="partner__rating">4,9 / 5 <span role="img" aria-label="5 z 5 hviezdičiek">★★★★★</span></div>
+      <div class="partner__text">Priemerné hodnotenie viac ako 1700 overených klientov</div>
+    </div>
+  </div>
+  <div class="partner">
+    <img src="/img/zmos.png" alt="ZMOS" width="56" height="56" class="partner__logo" />
+    <div>
+      <div class="partner__name">ZMOS</div>
+      <div class="partner__text">Sme generálnym partnerom Združenia miest a obcí</div>
+    </div>
+  </div>
+  <div class="partner">
+    <img src="/img/zhk-sr.png" alt="ZHK SR" width="35" height="56" class="partner__logo partner__logo--tall" />
+    <div>
+      <div class="partner__name">ZHK SR</div>
+      <div class="partner__text">Sme partner Združenia hlavných kontrolórov miest a obcí SR</div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .partners {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 20px 96px;
+    box-sizing: content-box;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: 30px;
+  }
+  .partner {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 0 30px;
+  }
+  .partner__avatars {
+    display: flex;
+    flex-shrink: 0;
+  }
+  .partner__avatars img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 0 2px rgb(240, 235, 228);
+  }
+  .partner__avatars img + img {
+    margin-left: -18px;
+  }
+  .partner__logo {
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+  }
+  .partner__logo--tall {
+    width: auto;
+    border-radius: 0;
+    margin: 0 10px;
+  }
+  .partner__rating {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: -0.03em;
+    color: rgb(243, 186, 2);
+  }
+  .partner__rating span {
+    font-size: 15px;
+    letter-spacing: 0;
+  }
+  .partner__name {
+    font-family: var(--font-head);
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: -0.03em;
+    color: var(--c-primary-light);
+  }
+  .partner__text {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.3;
+    color: var(--c-text);
+  }
+  @media (max-width: 760px) {
+    .partner {
+      padding: 0;
+    }
+  }
+</style>

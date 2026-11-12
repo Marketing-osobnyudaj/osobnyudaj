@@ -1,0 +1,367 @@
+---
+// "Vzdelávanie a spoločenská zodpovednosť" — certificates, insurance, partners, thank-you letters.
+import {
+  isoCertificates,
+  expertCertificates,
+  insurance,
+  generalPartners,
+  supported,
+  thanks,
+} from '../../data/company';
+
+const certGroups = [
+  { title: 'Certifikáty ISO', items: isoCertificates },
+  { title: 'Certifikáty našich odborníkov', items: expertCertificates },
+];
+---
+
+<section class="edu">
+  <div class="edu__bg" aria-hidden="true"></div>
+  <div class="edu__line" aria-hidden="true"></div>
+  <div class="edu__inner">
+    <div class="section-head section-head--center">
+      <div class="eyebrow">/ Profesná spôsobilosť /</div>
+      <h2 class="h2 h2--sm edu__title">Vzdelávanie a spoločenská zodpovednosť</h2>
+    </div>
+
+    {
+      certGroups.map((g) => (
+        <div class="group">
+          <h3 class="group__title">{g.title}</h3>
+          <div class="grid grid--260">
+            {g.items.map((c) => (
+              <article class="cert">
+                {/* TODO: issuer logo */}
+                <div class="cert__logo">{c.issuer}</div>
+                <h4 class="item__title">{c.title}</h4>
+                <p class="item__text">{c.text}</p>
+                <a href={c.href} class="link-arrow">
+                  Zobraziť certifikát →
+                </a>
+              </article>
+            ))}
+          </div>
+        </div>
+      ))
+    }
+
+    <div class="insurance">
+      <div class="insurance__text">
+        <h3 class="group__title">{insurance.title}</h3>
+        <p>{insurance.text}</p>
+      </div>
+      <div class="insurance__card">
+        <div class="insurance__label">{insurance.label}</div>
+        <div class="insurance__amount">{insurance.amount}</div>
+        <div class="insurance__insurer">{insurance.insurer}</div>
+      </div>
+    </div>
+
+    <div class="group">
+      <h3 class="group__title">Generálny partner</h3>
+      <div class="grid grid--300">
+        {
+          generalPartners.map((o) => (
+            <article class="org">
+              <div class="org__logo">
+                {o.logo ? (
+                  <img src={o.logo} alt={o.logoAlt ?? o.name} loading="lazy" />
+                ) : (
+                  <span class="org__badge" aria-hidden="true">
+                    {o.badge}
+                  </span>
+                )}
+              </div>
+              <h4 class="item__title">{o.name}</h4>
+              <p class="item__text">{o.text}</p>
+              <a href={o.href} class="link-arrow">
+                Zisti viac →
+              </a>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="group">
+      <h3 class="group__title">Podporujeme</h3>
+      <div class="grid grid--260">
+        {
+          supported.map((o) => (
+            <article class="org">
+              {/* TODO: organisation logo (placeholder in the design) */}
+              <div class="org__logo">
+                <span class="org__placeholder" aria-hidden="true">
+                  Logo
+                </span>
+              </div>
+              <h4 class="item__title">{o.name}</h4>
+              <p class="item__text">{o.text}</p>
+              <a href={o.href} class="link-arrow">
+                Zisti viac →
+              </a>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="group">
+      <h3 class="group__title">Ďakovné listy</h3>
+      <div class="grid grid--300">
+        {
+          thanks.map((t) => (
+            <figure class="thanks">
+              <blockquote>{t.quote}</blockquote>
+              <figcaption>
+                <span class="item__title">{t.name}</span>
+                <span>{t.role}</span>
+              </figcaption>
+              <a href="#" class="link-arrow">
+                Zisti viac →
+              </a>
+            </figure>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .edu {
+    position: relative;
+    margin-top: 128px;
+    padding: 160px 20px;
+  }
+  .edu__bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgb(237, 243, 252) 0%, rgba(237, 243, 252, 0) 100%);
+    clip-path: polygon(0 70px, 100% 0, 100% 100%, 0 100%);
+  }
+  .edu__line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 80px;
+    background: var(--c-primary);
+    clip-path: polygon(0 calc(100% - 10px), 100% 0, 100% 3px, 0 100%);
+  }
+  .edu__inner {
+    position: relative;
+    max-width: 1240px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 96px;
+  }
+  .edu .section-head {
+    gap: 12px;
+  }
+  .edu__title {
+    max-width: 606px;
+  }
+  .group {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  .group__title {
+    margin: 0;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    color: var(--c-navy);
+  }
+  .grid {
+    display: grid;
+    gap: 30px;
+    width: 100%;
+  }
+  .grid--260 {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  }
+  .grid--300 {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  }
+  .item__title {
+    margin: 0;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1.2;
+    color: var(--c-text-2);
+  }
+  .item__text {
+    margin: 0;
+    flex: 1;
+    font-size: 15px;
+    line-height: 1.4;
+    color: var(--c-text-2);
+  }
+  .cert {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 32px;
+    border-radius: var(--radius-lg);
+    background: #fff;
+    box-shadow: inset 0 0 0 1.5px rgb(237, 239, 245), 0 0 2px 0 rgba(163, 170, 181, 0.7),
+      0 25px 25px 0 rgba(119, 138, 178, 0.07), 0 6px 14px 0 rgba(119, 138, 178, 0.08);
+  }
+  .cert__logo,
+  .org__placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 48px;
+    margin: 4px 0;
+    border-radius: var(--radius);
+    background: repeating-linear-gradient(135deg, rgb(226, 234, 248) 0 12px, rgb(235, 241, 251) 12px 24px);
+    font-size: 14px;
+    color: rgb(110, 125, 150);
+    text-align: center;
+  }
+  .org__placeholder {
+    height: 56px;
+    margin: 0;
+  }
+  .insurance {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+    gap: 30px;
+    align-items: center;
+  }
+  .insurance__text {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-right: 30px;
+  }
+  .insurance__text p {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.4;
+    color: var(--c-text-2);
+  }
+  .insurance__card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 56px 32px;
+    border-radius: var(--radius-lg);
+    background: rgb(18, 46, 79);
+    color: #fff;
+    text-align: center;
+    box-shadow: 0 25px 25px rgba(0, 0, 0, 0.14), 0 6px 14px rgba(0, 0, 0, 0.16);
+  }
+  .insurance__label {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--c-pale);
+  }
+  .insurance__amount {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 56px;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--c-accent);
+  }
+  .insurance__insurer {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: 0.04em;
+  }
+  .org {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .org__logo {
+    height: 64px;
+    display: flex;
+    align-items: center;
+  }
+  .org__logo img {
+    height: 56px;
+    width: auto;
+  }
+  .org__logo img[src*='zmos'] {
+    width: 56px;
+    border-radius: 50%;
+  }
+  .org__logo img[src*='zhk'] {
+    height: 64px;
+  }
+  .org__badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgb(237, 243, 252);
+    font-family: var(--font-head);
+    font-weight: 800;
+    font-size: 11px;
+    line-height: 1.1;
+    color: var(--c-primary-light);
+    text-align: center;
+  }
+  .thanks {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 30px;
+    border-radius: var(--radius-lg);
+    background: rgb(237, 243, 252);
+    color: var(--c-text-2);
+  }
+  .thanks blockquote {
+    margin: 0;
+    flex: 1;
+    font-size: 17px;
+    line-height: 1.4;
+  }
+  .thanks figcaption {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 17px;
+    line-height: 1.4;
+  }
+  @media (max-width: 760px) {
+    .edu {
+      margin-top: 96px;
+      padding: 120px 20px 96px;
+    }
+    .edu__inner {
+      gap: 64px;
+    }
+    .group__title {
+      font-size: 24px;
+    }
+    .insurance__text {
+      padding-right: 0;
+    }
+    .insurance__amount {
+      font-size: 44px;
+    }
+    .cert {
+      padding: 24px;
+    }
+    .thanks {
+      padding: 24px;
+    }
+  }
+</style>
