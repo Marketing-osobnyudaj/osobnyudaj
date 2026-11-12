@@ -1,0 +1,58 @@
+---
+// Client logo marquee with a configurable title (variant of sections/TrustLogos).
+import LogoMarquee from '../LogoMarquee.astro';
+import { routes } from '../../data/site';
+
+interface Props {
+  title: string;
+  showLink?: boolean;
+  /** 'top' = under the hero (80px / 128px padding); 'mid' = 80px top; 'plain' = 96px top, smaller gap. */
+  variant?: 'top' | 'mid' | 'plain';
+}
+const { title, showLink = false, variant = 'top' } = Astro.props;
+---
+
+<section class:list={['logos container', `logos--${variant}`]}>
+  <div class="logos__title">{title}</div>
+  {showLink && <a href={routes.referencie} class="logos__link">Vybrané referencie →</a>}
+  <div class="logos__marquee"><LogoMarquee /></div>
+</section>
+
+<style>
+  .logos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+  }
+  .logos--top {
+    padding-top: 80px;
+    padding-bottom: 128px;
+  }
+  .logos--mid {
+    padding-top: 80px;
+  }
+  .logos--plain {
+    padding-top: 96px;
+  }
+  .logos__title {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  .logos__link {
+    color: var(--c-accent);
+    font-weight: 600;
+    font-size: 15px;
+  }
+  .logos__marquee {
+    width: 100%;
+    margin-top: 32px;
+  }
+  .logos--plain .logos__marquee {
+    margin-top: 24px;
+  }
+</style>

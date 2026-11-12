@@ -1,0 +1,55 @@
+---
+// Shared layout of the ten segment landing pages; everything that varies comes from `segments` in data/segment-pages.ts.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SegmentHero from './SegmentHero.astro';
+import SegmentLogos from './SegmentLogos.astro';
+import SegmentBenefits from './SegmentBenefits.astro';
+import ServiceCarousel from './ServiceCarousel.astro';
+import Interview from './Interview.astro';
+import HowWeWork from './HowWeWork.astro';
+import ClientCenter from './ClientCenter.astro';
+import CtaBanner from '../sections/CtaBanner.astro';
+import ReferencesCarousel from '../sections/ReferencesCarousel.astro';
+import Ratings from '../sections/Ratings.astro';
+import BlogTeaser from '../sections/BlogTeaser.astro';
+import QuoteForm from '../sections/QuoteForm.astro';
+import {
+  segments,
+  heroLead,
+  segmentBenefits,
+  segmentServices,
+  howWeWork,
+  clientCenterFeatures,
+  type SegmentKey,
+} from '../../data/segment-pages';
+
+interface Props {
+  segment: SegmentKey;
+}
+const seg = segments[Astro.props.segment];
+const pre = `pre ${seg.forWhom}`;
+---
+
+<BaseLayout
+  title={`Komplexné služby ${pre} – Osobný údaj`}
+  description={`Ochrana osobných údajov, kybernetická bezpečnosť, BOZP a ďalšie služby ${pre} na jednom mieste.`}
+>
+  <SegmentHero title={`Komplexné služby ${pre}`} lead={heroLead} />
+  <SegmentLogos title="Pomáhame stovkám obcí a miest po celom Slovensku" showLink />
+  <SegmentBenefits eyebrow={seg.benefitsEyebrow} title={`Správna voľba ${pre}`} items={segmentBenefits} />
+  <ServiceCarousel
+    eyebrow={`/ Naše služby ${pre} /`}
+    title={`Agenda ${pre} na jednom mieste a bez stresu.`}
+    suffix={pre}
+    items={segmentServices(seg)}
+  />
+  <CtaBanner />
+  <Interview />
+  <HowWeWork items={howWeWork[seg.howWeWork]} />
+  <ClientCenter features={clientCenterFeatures} />
+  <ReferencesCarousel />
+  <SegmentLogos title="Dôveruje nám viac ako 13 000 spokojných klientov" showLink variant="mid" />
+  <Ratings />
+  <BlogTeaser />
+  <QuoteForm />
+</BaseLayout>

@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SegmentHero from '../components/segment/SegmentHero.astro';
+import SegmentLogos from '../components/segment/SegmentLogos.astro';
+import IncludedInPrice from '../components/segment/IncludedInPrice.astro';
+import ClientCenter from '../components/segment/ClientCenter.astro';
+import ServiceCarousel from '../components/segment/ServiceCarousel.astro';
+import FaqAccordion from '../components/segment/FaqAccordion.astro';
+import Benefits from '../components/home/Benefits.astro';
+import CtaBanner from '../components/sections/CtaBanner.astro';
+import BlogTeaser from '../components/sections/BlogTeaser.astro';
+import RegionalContacts from '../components/sections/RegionalContacts.astro';
+import ReferencesCarousel from '../components/sections/ReferencesCarousel.astro';
+import Ratings from '../components/sections/Ratings.astro';
+import QuoteForm from '../components/sections/QuoteForm.astro';
+import { serviceIcon } from '../data/site';
+import { faqsForPage } from '../data/faq';
+import { partners, includedInPrice, gdprSkolyClientCenterFeatures, gdprSkolyRelated } from '../data/segment-pages';
+---
+
+<BaseLayout
+  title="Ochrana osobných údajov pre vašu školu – Osobný údaj"
+  description="GDPR pre školy: zodpovedná osoba, bezpečnostná dokumentácia, školenia a podpora počas celého roka."
+>
+  <SegmentHero
+    title="Ochrana osobných údajov pre vašu školu"
+    service={{ icon: serviceIcon('1-gdpr'), label: 'Ochrana osobných údajov' }}
+    infoHref="#info"
+    partners={partners}
+  />
+  <SegmentLogos title="Dôveruje nám viac ako 13 000 spokojných klientov" showLink />
+  <IncludedInPrice id="info" items={includedInPrice} />
+  <Benefits />
+  <CtaBanner />
+  <ClientCenter
+    eyebrow="/ Klientske centrum /"
+    title="Majte všetky služby pod kontrolou na jednom mieste"
+    text="Klientske centrum vám prináša prehľad, rýchlosť a pohodlie – riešte úlohy kedykoľvek a odkiaľkoľvek, vždy spolu s celým naším tímom"
+    features={gdprSkolyClientCenterFeatures}
+  />
+  <ServiceCarousel
+    variant="related"
+    eyebrow="Súvisiace služby pre vašu školu"
+    title="K službe Ochrana osobných údajov si môžete pridať aj tieto služby."
+    suffix="pre vašu školu"
+    items={gdprSkolyRelated}
+  />
+  <BlogTeaser />
+  <FaqAccordion items={faqsForPage('GDPR – ochrana osobných údajov')} />
+  <RegionalContacts />
+  <ReferencesCarousel />
+  <SegmentLogos title="Dôveruje nám viac ako 13 000 spokojných klientov" variant="plain" />
+  <Ratings />
+  <QuoteForm />
+</BaseLayout>

@@ -1,0 +1,78 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  items: { icon: string; title: string; text: string }[];
+}
+const { eyebrow, title, items } = Astro.props;
+---
+
+<section class="sbenefits container">
+  <div class="section-head">
+    <div class="eyebrow">{eyebrow}</div>
+    <h2 class="h2">{title}</h2>
+    <p class="lead">
+      My nesľubujeme, my konáme. Klienti oceňujú naše znalosti, vyľadené procesy a rýchlu implementáciu požadovaných služieb.
+    </p>
+  </div>
+  <div class="sbenefits__grid">
+    {
+      items.map((b) => (
+        <div class="sbenefit">
+          <div class="sbenefit__head">
+            <img src={b.icon} alt="" width="32" height="32" />
+            <h3>{b.title}</h3>
+          </div>
+          <p>{b.text}</p>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .sbenefits {
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+  }
+  .sbenefits__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+    gap: 64px 30px;
+  }
+  .sbenefit {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-right: 30px;
+  }
+  .sbenefit__head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .sbenefit__head img {
+    flex-shrink: 0;
+  }
+  .sbenefit h3 {
+    margin: 0;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1.2;
+  }
+  .sbenefit p {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.4;
+  }
+  @media (max-width: 760px) {
+    .sbenefits__grid {
+      gap: 40px;
+    }
+    .sbenefit {
+      padding-right: 0;
+    }
+  }
+</style>

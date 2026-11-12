@@ -1,0 +1,212 @@
+---
+// "Klientske centrum" — dark-blue diagonal band with feature list and app screenshot.
+import { routes } from '../../data/site';
+
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  text?: string;
+  features: { icon: string; title: string; text?: string }[];
+}
+const {
+  eyebrow = '/ Klientské centrum /',
+  title = 'Majte prehľad o všetkých službách na jednom mieste',
+  text = 'Buďte pánom svojho času a riešte úlohy cez klientské centrum kdekoľvek a kedykoľvek s celým tímom.',
+  features,
+} = Astro.props;
+---
+
+<section class="kc">
+  <div class="kc__bg" aria-hidden="true"></div>
+  <div class="kc__line kc__line--top" aria-hidden="true"></div>
+  <div class="kc__line kc__line--bottom" aria-hidden="true"></div>
+  <div class="kc__inner">
+    <div class="kc__head">
+      <div class="kc__titles">
+        <div class="kc__eyebrow">{eyebrow}</div>
+        <h2 class="h2 h2--sm kc__title">{title}</h2>
+      </div>
+      <p class="kc__text">{text}</p>
+      <div class="kc__ctas">
+        <a href="#cenova-ponuka" class="btn btn--primary kc__btn kc__btn--shadow">Vyskúšať zadarmo</a>
+        <a href={routes.klientskeCentrum} class="btn btn--outline-light kc__btn">Viac info</a>
+      </div>
+    </div>
+    <div class="kc__body">
+      <ul class="kc__features">
+        {
+          features.map((f) => (
+            <li class="kc-feature">
+              <img src={f.icon} alt="" width="80" height="80" loading="lazy" />
+              {f.text ? (
+                <div class="kc-feature__rich">
+                  <strong>{f.title}</strong>
+                  <span>{f.text}</span>
+                </div>
+              ) : (
+                <span class="kc-feature__plain">{f.title}</span>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+      <img
+        src="/assets/uploads/Group-1033.webp"
+        alt="Klientske centrum – ukážka aplikácie"
+        class="kc__shot"
+        loading="lazy"
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .kc {
+    position: relative;
+    padding: 225px var(--gutter) 200px;
+    color: #fff;
+  }
+  .kc__bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgb(21, 60, 141) 0%, rgb(57, 106, 195) 100%);
+    clip-path: polygon(0 90px, 100% 0, 100% calc(100% - 90px), 0 100%);
+  }
+  .kc__line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 97px;
+    clip-path: polygon(0 90px, 100% 0, 100% 7px, 0 97px);
+  }
+  .kc__line--top {
+    top: 0;
+    background: rgb(45, 66, 160);
+  }
+  .kc__line--bottom {
+    bottom: 0;
+    background: var(--c-accent);
+  }
+  .kc__inner {
+    position: relative;
+    max-width: 1122px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 96px;
+  }
+  .kc__head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    text-align: center;
+    max-width: 606px;
+  }
+  .kc__titles {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .kc__eyebrow {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--c-on-blue-muted);
+  }
+  .kc__title {
+    color: #fff;
+  }
+  .kc__text {
+    margin: 0;
+    font-size: 20px;
+    line-height: 1.4;
+  }
+  .kc__ctas {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 8px;
+  }
+  .kc__btn {
+    height: 54px;
+    padding: 0 40px;
+  }
+  .kc__btn--shadow {
+    box-shadow: 0 39px 24px rgba(0, 0, 0, 0.1), 0 18px 18px rgba(0, 0, 0, 0.18), 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  .kc__body {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 64px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  .kc__features {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    width: 249px;
+  }
+  .kc-feature {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .kc-feature img {
+    display: block;
+  }
+  .kc-feature__plain {
+    font-size: 19px;
+    font-weight: 500;
+    line-height: 1.2;
+    color: var(--c-pale);
+  }
+  .kc-feature__rich {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .kc-feature__rich strong {
+    font-family: var(--font-head);
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #fff;
+  }
+  .kc-feature__rich span {
+    font-size: 16px;
+    line-height: 1.4;
+    color: var(--c-pale);
+  }
+  .kc__shot {
+    display: block;
+    flex: 1;
+    min-width: min(100%, 420px);
+    max-width: 800px;
+    width: 100%;
+    height: auto;
+  }
+  @media (max-width: 760px) {
+    .kc {
+      padding-top: 160px;
+      padding-bottom: 150px;
+    }
+    .kc__inner {
+      gap: 56px;
+    }
+    .kc__features {
+      width: 100%;
+      gap: 28px;
+    }
+    .kc__body {
+      gap: 40px;
+    }
+  }
+</style>

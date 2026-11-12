@@ -1,0 +1,109 @@
+---
+// "Ako pracujeme" — four process cards on a light diagonal background.
+interface Props {
+  items: { icon: string; title: string; text: string }[];
+}
+const { items } = Astro.props;
+---
+
+<section class="how">
+  <div class="how__bg" aria-hidden="true"></div>
+  <div class="how__inner">
+    <div class="section-head section-head--center how__head">
+      <div class="eyebrow">/ Ako pracujeme /</div>
+      <h2 class="h2 h2--sm">Optimalizované procesy</h2>
+      <p class="how__lead">Vytvárame riešenia s potenciálom rastu a škálovateľnosti vo všetkých vrstvách IT služieb.</p>
+    </div>
+    <div class="how__grid">
+      {
+        items.map((k) => (
+          <div class="how-card">
+            <div class="how-card__head">
+              <img src={k.icon} alt="" width="64" height="64" loading="lazy" />
+              <h3>{k.title}</h3>
+            </div>
+            <p>{k.text}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .how {
+    position: relative;
+    padding: 128px var(--gutter);
+    overflow: hidden;
+  }
+  .how__bg {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 800px;
+    background: linear-gradient(180deg, rgb(232, 240, 252) 0%, rgb(234, 241, 252) 25%, rgba(244, 247, 253, 0.8) 70%, rgba(255, 255, 255, 0) 100%);
+    clip-path: polygon(0 88px, 100% 14px, 100% 100%, 0 100%);
+    pointer-events: none;
+  }
+  .how__inner {
+    position: relative;
+    max-width: 1242px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 56px;
+  }
+  .how__head {
+    max-width: 606px;
+  }
+  .how__lead {
+    margin: 0;
+    font-size: 20px;
+    line-height: 1.4;
+    color: var(--c-text-2);
+  }
+  .how__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+    gap: 40px 30px;
+    width: 100%;
+  }
+  .how-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 56px;
+    border-radius: var(--radius-lg);
+    background: #fff;
+    color: var(--c-text-2);
+    box-shadow: inset 0 0 0 1.5px rgb(237, 239, 245), var(--shadow-card);
+  }
+  .how-card__head {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .how-card h3 {
+    margin: 0;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 1.2;
+  }
+  .how-card p {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.4;
+  }
+  @media (max-width: 760px) {
+    .how {
+      padding-top: 120px;
+      padding-bottom: 96px;
+    }
+    .how-card {
+      padding: 32px 24px;
+    }
+  }
+</style>

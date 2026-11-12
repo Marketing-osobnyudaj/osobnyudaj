@@ -1,0 +1,318 @@
+---
+// Hero for segment pages (small muted title + lead) and the GDPR pre školy page (service kicker, big white title, partner rotator).
+interface Partner {
+  img: string;
+  name: string;
+  text: string;
+}
+interface Props {
+  title: string;
+  lead?: string;
+  /** Service kicker above the title (icon + label); switches to the large white title style. */
+  service?: { icon: string; label: string };
+  /** Adds the underlined "Viac informácií" link pointing here. */
+  infoHref?: string;
+  partners?: Partner[];
+}
+const {
+  title,
+  lead,
+  service,
+  infoHref,
+  partners = [{ img: '/img/zmos.png', name: 'ZMOS', text: 'Sme hlavným partnerom Združenia miest a obcí' }],
+} = Astro.props;
+const rotating = partners.length > 1;
+---
+
+<section class:list={['hero', { 'hero--service': service }]}>
+  <div class="hero__content container">
+    {
+      service && (
+        <div class="hero__kicker">
+          <img src={service.icon} alt="" width="48" height="48" />
+          {service.label}
+        </div>
+      )
+    }
+    <div class="hero__text">
+      <h1 class="hero__title">{title}</h1>
+      {lead && <p class="hero__lead">{lead}</p>}
+    </div>
+    <div class="hero__ctas">
+      <a href="#cenova-ponuka" class="btn btn--primary btn--shadow">Vyskúšať zadarmo</a>
+      <a href="#cenova-ponuka" class="btn btn--outline-light">Bezplatná cenová ponuka</a>
+      {infoHref && <a href={infoHref} class="hero__more">Viac informácií</a>}
+    </div>
+    <div class="hero__proof">
+      <div class="proof">
+        <div class="proof__avatars">
+          <img src="/img/avatar-1.jpg" alt="" width="40" height="40" />
+          <img src="/img/avatar-2.jpg" alt="" width="40" height="40" />
+          <img src="/img/avatar-3.jpg" alt="" width="40" height="40" />
+        </div>
+        <div class="proof__title">4,9 / 5 <span class="stars" aria-label="5 hviezdičiek">★★★★★</span></div>
+        <div class="proof__text">Priemerné hodnotenie viac ako 1700 overených klientov</div>
+      </div>
+      <div class:list={['proof', { 'proof--partners': rotating }]} data-partners>
+        {
+          partners.map((p, i) => (
+            <div class="partner" hidden={i > 0 ? true : undefined} data-partner>
+              <img src={p.img} alt={p.name} width="40" height="40" class="proof__logo" loading={i > 0 ? 'lazy' : undefined} />
+              <div class="proof__title">{p.name}</div>
+              <div class="proof__text">{p.text}</div>
+            </div>
+          ))
+        }
+        {
+          rotating ? (
+            <div class="proof__dots">
+              {partners.map((p, i) => (
+                <button type="button" aria-label={`Partner ${p.name}`} aria-current={i === 0 ? 'true' : 'false'} data-partner-dot={i} />
+              ))}
+            </div>
+          ) : (
+            <div class="proof__dots" aria-hidden="true">
+              <span class="is-active" />
+              <span />
+              <span />
+              <span />
+            </div>
+          )
+        }
+      </div>
+    </div>
+  </div>
+  <div class="hero__image" aria-hidden="true">
+    <img src="/img/2ac9866d4c010eeb.png" alt="" />
+  </div>
+  <div class="hero__cut" aria-hidden="true"></div>
+  <div class="hero__stripe" aria-hidden="true"></div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    background: var(--grad-blue);
+    color: #fff;
+    overflow: hidden;
+  }
+  .hero__content {
+    position: relative;
+    z-index: 1;
+    padding-top: 96px;
+    padding-bottom: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  .hero__kicker {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: -0.02em;
+  }
+  .hero__kicker img {
+    flex-shrink: 0;
+    display: block;
+  }
+  .hero__text {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 575px;
+  }
+  .hero__title {
+    margin: 0;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: var(--c-on-blue-muted);
+    text-wrap: pretty;
+  }
+  .hero--service .hero__text {
+    max-width: 640px;
+  }
+  .hero--service .hero__title {
+    font-size: 56px;
+    color: #fff;
+  }
+  .hero__lead {
+    margin: 0;
+    font-size: 20px;
+    line-height: 1.4;
+  }
+  .hero__ctas {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .hero__more {
+    display: flex;
+    align-items: center;
+    height: 56px;
+    padding: 0 12px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 17px;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .hero__more:hover {
+    color: #fff;
+    opacity: 0.85;
+  }
+  .hero__proof {
+    display: flex;
+    gap: 72px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+  }
+  .proof,
+  .partner {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .proof--partners {
+    width: 240px;
+  }
+  .proof--partners .proof__text {
+    min-height: 40px;
+  }
+  .partner[hidden] {
+    display: none;
+  }
+  .proof__avatars {
+    display: flex;
+  }
+  .proof__avatars img,
+  .proof__logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .proof--partners .proof__logo {
+    object-fit: contain;
+    background: #fff;
+  }
+  .proof__avatars img {
+    box-shadow: 0 0 0 2px var(--c-primary);
+  }
+  .proof__avatars img + img {
+    margin-left: -10px;
+  }
+  .proof__title {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 17px;
+  }
+  .proof__text {
+    max-width: 220px;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  .proof__dots {
+    display: flex;
+    gap: 6px;
+    margin-top: 4px;
+  }
+  .proof__dots span,
+  .proof__dots button {
+    width: 6px;
+    height: 6px;
+    padding: 0;
+    border: 0;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.5);
+    transition: width 0.2s;
+  }
+  .proof__dots button {
+    cursor: pointer;
+  }
+  .proof__dots span.is-active,
+  .proof__dots button[aria-current='true'] {
+    width: 24px;
+    background: #fff;
+  }
+
+  .hero__image {
+    position: absolute;
+    top: 0;
+    right: max(0px, calc((100vw - 1440px) / 2));
+    width: min(760px, 55vw);
+    height: 720px;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .hero__image img {
+    position: absolute;
+    left: -342px;
+    top: -9px;
+    width: 1217px;
+    height: 1699px;
+    max-width: none;
+    object-fit: cover;
+  }
+  .hero__cut {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 140px;
+    background: #fff;
+    clip-path: polygon(0 100%, 100% 18%, 100% 100%);
+  }
+  .hero__stripe {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 140px;
+    background: var(--grad-accent);
+    clip-path: polygon(0 85%, 100% 3%, 100% 18%, 0 100%);
+  }
+
+  @media (max-width: 1099px) {
+    .hero__image {
+      display: none;
+    }
+  }
+  @media (max-width: 760px) {
+    .hero__content {
+      padding-top: 56px;
+      padding-bottom: 140px;
+    }
+    .hero__title {
+      font-size: 34px;
+    }
+    .hero--service .hero__title {
+      font-size: 38px;
+    }
+    .hero__proof {
+      gap: 32px;
+    }
+  }
+</style>
+
+<script>
+  // Partner rotator (dots switch the visible partner).
+  document.querySelectorAll<HTMLElement>('[data-partners]').forEach((root) => {
+    const items = root.querySelectorAll<HTMLElement>('[data-partner]');
+    const dots = root.querySelectorAll<HTMLButtonElement>('[data-partner-dot]');
+    if (dots.length < 2) return;
+    const show = (k: number) => {
+      items.forEach((el, i) => (el.hidden = i !== k));
+      dots.forEach((d, i) => d.setAttribute('aria-current', String(i === k)));
+    };
+    dots.forEach((d, k) => d.addEventListener('click', () => show(k)));
+  });
+</script>
