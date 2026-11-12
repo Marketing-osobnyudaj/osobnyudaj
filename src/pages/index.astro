@@ -1,60 +1,33 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import LogoMarquee from '../components/LogoMarquee.astro';
 import Hero from '../components/home/Hero.astro';
 import ServicesPicker from '../components/home/ServicesPicker.astro';
 import AiAdvisor from '../components/home/AiAdvisor.astro';
 import Benefits from '../components/home/Benefits.astro';
 import VideoReference from '../components/home/VideoReference.astro';
-import BlogTeaser from '../components/home/BlogTeaser.astro';
-import RegionalContacts from '../components/home/RegionalContacts.astro';
-import Testimonials from '../components/home/Testimonials.astro';
-import QuoteForm from '../components/home/QuoteForm.astro';
-import { routes } from '../data/site';
+import TrustLogos from '../components/sections/TrustLogos.astro';
+import CtaBanner from '../components/sections/CtaBanner.astro';
+import BlogTeaser from '../components/sections/BlogTeaser.astro';
+import RegionalContacts from '../components/sections/RegionalContacts.astro';
+import ReferencesCarousel from '../components/sections/ReferencesCarousel.astro';
+import ClientStats from '../components/sections/ClientStats.astro';
+import Ratings from '../components/sections/Ratings.astro';
+import QuoteForm from '../components/sections/QuoteForm.astro';
 ---
 
 <BaseLayout title="Osobný údaj – ochrana osobných údajov a kybernetická bezpečnosť">
   <Hero />
-
-  <section class="logos container">
-    <div class="logos__title">Dôveruje nám viac ako 12 000 spokojných klientov</div>
-    <a href={routes.referencie} class="logos__link">Vybrané referencie →</a>
-    <div class="logos__marquee"><LogoMarquee /></div>
-  </section>
-
+  <TrustLogos showLink />
   <ServicesPicker />
   <AiAdvisor />
   <Benefits />
   <VideoReference />
+  <CtaBanner />
   <BlogTeaser />
   <RegionalContacts />
-  <Testimonials />
+  <ReferencesCarousel />
+  <ClientStats />
+  <TrustLogos />
+  <Ratings />
   <QuoteForm />
 </BaseLayout>
-
-<style>
-  .logos {
-    padding-top: 80px;
-    padding-bottom: 128px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    text-align: center;
-  }
-  .logos__title {
-    font-family: var(--font-head);
-    font-weight: 700;
-    font-size: 20px;
-    letter-spacing: -0.02em;
-  }
-  .logos__link {
-    color: var(--c-accent);
-    font-weight: 600;
-    font-size: 15px;
-  }
-  .logos__marquee {
-    width: 100%;
-    margin-top: 32px;
-  }
-</style>

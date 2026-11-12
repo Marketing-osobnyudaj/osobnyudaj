@@ -1,4 +1,9 @@
 ---
+interface Props {
+  title?: string;
+}
+const { title = '15 regionálnych zastúpení po celom Slovensku' } = Astro.props;
+
 // Pin positions on the 823×405 map artwork (from the design).
 const pins = [
   [0, 236.911], [68.662, 192.544], [141.548, 206.278], [339.177, 0], [459.969, 135.288],
@@ -16,7 +21,7 @@ const pins = [
   <div class="regions__inner container">
     <div class="section-head section-head--center">
       <div class="eyebrow eyebrow--on-blue">/ Kontakty /</div>
-      <h2 class="h2 h2--sm regions__title">15 regionálnych zastúpení po celom Slovensku</h2>
+      <h2 class="h2 h2--sm regions__title">{title}</h2>
       <p class="regions__lead">
         Naše pobočky nie sú len kancelárie – sú to centrá, kde sa s vami stretávame, školíme a budujeme dlhodobé partnerstvá.
       </p>

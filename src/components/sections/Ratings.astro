@@ -1,0 +1,96 @@
+---
+import { routes } from '../../data/site';
+---
+
+<section class="ratings container">
+  <div class="ratings__title">Hodnotenia overených klientov</div>
+  <div class="ratings__grid">
+    <div class="rating">
+      <div class="rating__stars"><span class="stars">★★★★★</span>4,9 / 5</div>
+      <div class="rating__text rating__text--normal">Ako ste spokojný s našimi službami?</div>
+    </div>
+    <div class="rating">
+      <div class="rating__big">93 %</div>
+      <div class="rating__text">Klienti, ktorí by odporučili naše služby iným</div>
+    </div>
+    <div class="rating">
+      <div class="rating__big">97 %</div>
+      <div class="rating__text rating__text--wide">
+        Klienti, ktorí potvrdzujú vyšší pocit istoty v oblasti bezpečnosti po zavedení našich služieb.
+      </div>
+    </div>
+  </div>
+  <a href={routes.referencie} class="btn btn--primary ratings__btn">Ďalšie referencie</a>
+</section>
+
+<style>
+  .ratings {
+    padding-top: 96px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+  }
+  .ratings__title {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: -0.02em;
+    color: rgb(37, 40, 71);
+  }
+  .ratings__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+    gap: 36px;
+    width: 100%;
+  }
+  .rating {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    min-height: 182px;
+    padding: 28px 24px 32px;
+    border-radius: var(--radius-lg);
+    background: var(--c-tint);
+  }
+  .rating__stars {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    height: 58px;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--c-star);
+  }
+  .rating__stars .stars {
+    font-size: 20px;
+    letter-spacing: 1px;
+  }
+  .rating__big {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 58px;
+    letter-spacing: -0.02em;
+    color: var(--c-primary-light);
+  }
+  .rating__text {
+    max-width: 200px;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.5;
+    color: var(--c-text-2);
+  }
+  .rating__text--normal {
+    font-weight: 400;
+  }
+  .rating__text--wide {
+    max-width: 240px;
+  }
+  .ratings__btn {
+    margin-top: 16px;
+  }
+</style>

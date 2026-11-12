@@ -1,6 +1,11 @@
 ---
 import { routes } from '../../data/site';
 
+interface Props {
+  title?: string;
+}
+const { title = 'Všetko čo chcete vedieť o online ochrane dát a báli ste sa opýtať' } = Astro.props;
+
 // TODO: replace with real posts from the blog once it exists.
 const posts = [
   {
@@ -27,7 +32,7 @@ const posts = [
   <div class="blog__inner container">
     <div class="section-head">
       <div class="eyebrow">/ Blog /</div>
-      <h2 class="h2">Všetko čo chcete vedieť o online ochrane dát a báli ste sa opýtať</h2>
+      <h2 class="h2">{title}</h2>
       <p class="lead">Vytvárame riešenia s potenciálom rastu a škálovateľnosti vo všetkých vrstvách IT služieb.</p>
       <a href={routes.blog} class="link-arrow">Naučte sa viac v našom blogu →</a>
     </div>

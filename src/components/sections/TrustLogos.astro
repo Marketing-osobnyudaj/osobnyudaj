@@ -1,0 +1,49 @@
+---
+import LogoMarquee from '../LogoMarquee.astro';
+import { routes } from '../../data/site';
+
+interface Props {
+  /** Show the "Vybrané referencie" link under the title. */
+  showLink?: boolean;
+}
+const { showLink = false } = Astro.props;
+---
+
+<section class:list={["trust container", { "trust--top": showLink }]}>
+  <div class="trust__title">Dôveruje nám viac ako 12 000 spokojných klientov</div>
+  {showLink && <a href={routes.referencie} class="trust__link">Vybrané referencie →</a>}
+  <div class="trust__marquee"><LogoMarquee /></div>
+</section>
+
+<style>
+  .trust {
+    padding-top: 96px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+  }
+  .trust__title {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: -0.02em;
+  }
+  .trust__marquee {
+    width: 100%;
+    margin-top: 24px;
+  }
+  .trust--top {
+    padding-top: 80px;
+    padding-bottom: 128px;
+  }
+  .trust--top .trust__marquee {
+    margin-top: 32px;
+  }
+  .trust__link {
+    color: var(--c-accent);
+    font-weight: 600;
+    font-size: 15px;
+  }
+</style>
