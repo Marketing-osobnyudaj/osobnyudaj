@@ -1,0 +1,192 @@
+---
+import { glossary } from '../../data/slovnik';
+
+const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+const slug = (s: string) =>
+  s
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+---
+
+<section class="gl container" data-glossary aria-label="Slovník pojmov">
+  <nav class="gl__letters" aria-label="Abecedný register">
+    {
+      letters.map((l) => (
+        <button type="button" class="gl__letter" data-letter={l} disabled={!glossary[l]?.length}>
+          {l}
+        </button>
+      ))
+    }
+  </nav>
+  <p class="gl__empty" data-empty hidden>Nenašli sa žiadne výsledky.</p>
+  {
+    Object.entries(glossary).map(([letter, items]) => (
+      <div class="group" id={`g-${letter}`} data-group={letter}>
+        <h2 class="group__letter">{letter}</h2>
+        <div class="group__items">
+          {items.map((t) => (
+            <div class="term" id={`pojem-${slug(t.term)}`} data-term data-text={`${t.term} ${t.desc}`.toLowerCase()}>
+              <h3 class="term__name">
+                <a href={`#pojem-${slug(t.term)}`}>{t.term}</a>
+              </h3>
+              <p class="term__desc">{t.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    ))
+  }
+</section>
+
+<style>
+  .gl {
+    padding-bottom: 128px;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+  .gl__letters {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: #fff;
+    padding: 12px 0;
+    border-bottom: 1px solid rgb(226, 229, 235);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px;
+  }
+  .gl__letter {
+    width: 36px;
+    height: 36px;
+    border: 0;
+    border-radius: var(--radius);
+    background: transparent;
+    cursor: pointer;
+    font: 700 16px var(--font-head);
+    color: var(--c-accent);
+  }
+  .gl__letter:hover:not(:disabled) {
+    background: rgb(251, 236, 235);
+  }
+  .gl__letter:disabled {
+    cursor: default;
+    color: rgb(200, 203, 209);
+  }
+  .gl__empty {
+    margin: 0;
+    padding: 48px 0;
+    text-align: center;
+    font-size: 17px;
+    color: var(--c-text-2);
+  }
+  .gl__empty[hidden],
+  .group[hidden],
+  .term[hidden] {
+    display: none;
+  }
+  .group {
+    display: grid;
+    grid-template-columns: minmax(0, 96px) minmax(0, 1fr);
+    gap: 30px;
+    scroll-margin-top: 80px;
+  }
+  .group__letter {
+    margin: 0;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--c-navy);
+  }
+  .group__items {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+    gap: 32px 30px;
+  }
+  .term {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgb(237, 239, 245);
+    scroll-margin-top: 80px;
+  }
+  .term:target .term__name a {
+    text-decoration: underline;
+  }
+  .term__name {
+    margin: 0;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1.25;
+  }
+  .term__name a {
+    color: var(--c-accent);
+  }
+  .term__name a:hover {
+    color: var(--c-accent-hover);
+  }
+  .term__desc {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--c-text-2);
+  }
+  @media (max-width: 640px) {
+    .group {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
+    }
+    .group__letter {
+      font-size: 40px;
+    }
+    .gl__letter {
+      width: 30px;
+      height: 32px;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-glossary]').forEach((root) => {
+    const input = document.querySelector<HTMLInputElement>('[data-search-input="slovnik"]');
+    const groups = Array.from(root.querySelectorAll<HTMLElement>('[data-group]'));
+    const letters = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-letter]'));
+    const emptyMsg = root.querySelector<HTMLElement>('[data-empty]');
+    const bar = root.querySelector<HTMLElement>('.gl__letters');
+
+    const update = () => {
+      const q = (input?.value ?? '').trim().toLowerCase();
+      const has = new Set<string>();
+      groups.forEach((g) => {
+        let n = 0;
+        g.querySelectorAll<HTMLElement>('[data-term]').forEach((t) => {
+          const show = !q || (t.dataset.text ?? '').includes(q);
+          t.hidden = !show;
+          if (show) n++;
+        });
+        g.hidden = n === 0;
+        if (n) has.add(g.dataset.group!);
+      });
+      letters.forEach((b) => (b.disabled = !has.has(b.dataset.letter!)));
+      if (emptyMsg) emptyMsg.hidden = has.size > 0;
+    };
+
+    letters.forEach((b) =>
+      b.addEventListener('click', () => {
+        const el = document.getElementById(`g-${b.dataset.letter}`);
+        if (!el) return;
+        const offset = (bar?.offsetHeight ?? 60) + 10;
+        window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - offset, behavior: 'smooth' });
+      }),
+    );
+    input?.addEventListener('input', update);
+  });
+</script>

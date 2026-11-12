@@ -1,0 +1,141 @@
+---
+// Hero with a search field and "Populárne témy" chips (FAQ and glossary pages).
+// The list component on the page listens to `input` events on `[data-search-input="<name>"]`.
+interface Props {
+  name: string;
+  eyebrow: string;
+  title: string;
+  placeholder: string;
+  popular: string[];
+}
+const { name, eyebrow, title, placeholder, popular } = Astro.props;
+---
+
+<section class="sh" data-search-hero={name}>
+  <div class="sh__bg" aria-hidden="true"></div>
+  <div class="sh__inner">
+    <div class="eyebrow">/ {eyebrow} /</div>
+    <h1 class="sh__title">{title}</h1>
+    <label class="sh__field">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>
+      <span class="visually-hidden">{placeholder}</span>
+      <input type="search" placeholder={placeholder} data-search-input={name} autocomplete="off" />
+    </label>
+    <div class="sh__popular">
+      <span>Populárne témy:</span>
+      {
+        popular.map((p) => (
+          <button type="button" class="sh__chip" data-search-chip={p}>
+            {p}
+          </button>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .sh {
+    position: relative;
+    padding: 96px var(--gutter) 64px;
+  }
+  .sh__bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgb(225, 234, 249) 0%, rgba(237, 243, 252, 0) 100%);
+    pointer-events: none;
+  }
+  .sh__inner {
+    position: relative;
+    max-width: 820px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    text-align: center;
+  }
+  .sh__title {
+    margin: 0;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: var(--c-navy);
+  }
+  .sh__field {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    max-width: 640px;
+    height: 56px;
+    padding: 0 20px;
+    border-radius: var(--radius-lg);
+    background: #fff;
+    color: var(--c-accent);
+    box-shadow: 0 0 2px rgba(163, 170, 181, 0.7), 0 14px 14px rgba(0, 0, 0, 0.06), 0 4px 8px rgba(0, 0, 0, 0.06);
+  }
+  .sh__field:focus-within {
+    outline: 2px solid var(--c-primary-light);
+  }
+  .sh__field svg {
+    flex-shrink: 0;
+  }
+  .sh__field input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    font: 400 17px var(--font-body);
+    color: var(--c-text-2);
+  }
+  .sh__popular {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    color: var(--c-text-2);
+  }
+  .sh__popular > span {
+    font-weight: 600;
+  }
+  .sh__chip {
+    padding: 4px 10px;
+    border: 0;
+    border-radius: 2px;
+    background: rgb(243, 244, 246);
+    cursor: pointer;
+    font: 500 14px var(--font-body);
+    color: var(--c-text-2);
+  }
+  .sh__chip:hover {
+    background: var(--c-pale);
+  }
+  @media (max-width: 760px) {
+    .sh {
+      padding-top: 56px;
+    }
+    .sh__title {
+      font-size: 32px;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-search-hero]').forEach((root) => {
+    const input = root.querySelector<HTMLInputElement>('[data-search-input]');
+    root.querySelectorAll<HTMLButtonElement>('[data-search-chip]').forEach((chip) =>
+      chip.addEventListener('click', () => {
+        if (!input) return;
+        input.value = chip.dataset.searchChip ?? '';
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+        input.focus();
+      }),
+    );
+  });
+</script>

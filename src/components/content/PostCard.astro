@@ -1,0 +1,106 @@
+---
+import { postUrl, shortDate, longDate, type Post } from '../../data/blog';
+
+interface Props {
+  post: Post;
+  /** "list": "autor · 11. 9. 2026" (blog listing); "related": author and long date on two lines. */
+  variant?: 'list' | 'related';
+  hidden?: boolean;
+}
+const { post: p, variant = 'list', hidden = false } = Astro.props;
+const t2 = p.cats[1] ?? p.tags[0] ?? '';
+---
+
+<a
+  href={postUrl(p)}
+  class="post"
+  hidden={hidden}
+  data-post
+  data-cats={p.cats.join('|')}
+  data-segs={p.segs.join('|')}
+  data-tags={p.tags.join('|')}
+>
+  <div class="post__img">
+    <img src={p.img} alt="" loading="lazy" />
+  </div>
+  <div class="post__tags">
+    {p.media && <span class="post__media" aria-hidden="true">{p.media}</span>}
+    <span>{p.cats[0]}</span>
+    {t2 && <span>{t2}</span>}
+  </div>
+  <h3 class="post__title">{p.title}</h3>
+  {
+    variant === 'list' ? (
+      <div class="post__meta">
+        {p.author} · {shortDate(p.date)}
+      </div>
+    ) : (
+      <div class="post__meta">
+        {p.author}
+        <br />
+        {longDate(p.date)}
+      </div>
+    )
+  }
+</a>
+
+<style>
+  .post {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+    color: var(--c-text-2);
+  }
+  .post[hidden] {
+    display: none;
+  }
+  .post:hover {
+    color: var(--c-navy);
+  }
+  .post__img {
+    aspect-ratio: 394 / 240;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--c-tint);
+  }
+  .post__img img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .post__tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 12px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--c-accent);
+  }
+  .post__media {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 18px;
+    border-radius: 3px;
+    background: rgb(251, 226, 224);
+    font-size: 10px;
+  }
+  .post__title {
+    margin: 0;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    text-wrap: pretty;
+  }
+  .post__meta {
+    font-size: 13px;
+    line-height: 1.6;
+    color: rgb(120, 126, 138);
+  }
+</style>

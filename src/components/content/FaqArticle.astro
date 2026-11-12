@@ -1,0 +1,205 @@
+---
+import { routes } from '../../data/site';
+import { faqs, faqUrl, type Faq } from '../../data/faq';
+
+interface Props {
+  faq: Faq;
+}
+const { faq } = Astro.props;
+
+// Split the answer into paragraphs of two sentences (as the design does).
+const sentences = faq.a.split(/(?<=\.)\s+(?=[A-ZÁČĎÉÍĽĹŇÓÔŔŠŤÚÝŽ„])/);
+const paras: string[] = [];
+sentences.forEach((s, i) => {
+  const k = Math.floor(i / 2);
+  paras[k] = paras[k] ? `${paras[k]} ${s}` : s;
+});
+
+// "Ďalšie otázky": same category first, then the rest.
+const others = faqs.filter((f) => f.slug !== faq.slug);
+const more = [...others.filter((f) => f.cat === faq.cat), ...others.filter((f) => f.cat !== faq.cat)].slice(0, 6);
+---
+
+<article class="faq">
+  <div class="faq__inner">
+    <a href={routes.faq} class="faq__back">← Späť na Často kladené otázky</a>
+    <div class="faq__cat">{faq.cat}</div>
+    <h1 class="faq__title">{faq.q}</h1>
+    <div class="faq__body">
+      {paras.map((p) => <p>{p}</p>)}
+    </div>
+
+    <div class="help">
+      <div class="help__text">
+        <h2 class="help__title">Potrebujete poradiť?</h2>
+        <p>Naši odborníci vám odpovedia najneskôr nasledujúci pracovný deň.</p>
+      </div>
+      <a href={routes.kontakt} class="btn btn--primary btn--md help__btn">Kontaktujte nás</a>
+    </div>
+
+    {
+      more.length > 0 && (
+        <nav class="more" aria-labelledby="faq-more-title">
+          <h2 class="more__title" id="faq-more-title">
+            Ďalšie otázky
+          </h2>
+          {more.map((o) => (
+            <a href={faqUrl(o)} class="more__link">
+              <span class="more__text">
+                <span class="more__cat">{o.cat}</span>
+                <span class="more__q">{o.q}</span>
+              </span>
+              <span class="more__arrow" aria-hidden="true">
+                →
+              </span>
+            </a>
+          ))}
+        </nav>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  .faq {
+    padding: 56px var(--gutter) 128px;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--c-text-2);
+  }
+  .faq__inner {
+    max-width: 780px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .faq__back {
+    align-self: flex-start;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--c-accent);
+  }
+  .faq__back:hover {
+    color: var(--c-accent-hover);
+  }
+  .faq__cat {
+    margin-top: 24px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--c-accent);
+  }
+  .faq__title {
+    margin: 0;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: var(--c-navy);
+    text-wrap: pretty;
+    overflow-wrap: break-word;
+  }
+  .faq__body {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .faq__body p {
+    margin: 0;
+  }
+  .help {
+    margin-top: 48px;
+    padding: 32px;
+    border-radius: var(--radius-lg);
+    background: var(--c-tint);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 32px;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .help__text {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-width: 440px;
+  }
+  .help__title {
+    margin: 0;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1.3;
+    color: var(--c-navy);
+  }
+  .help__text p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .help__btn {
+    padding: 0 24px;
+    font-size: 16px;
+  }
+  .more {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 64px;
+  }
+  .more__title {
+    margin: 0 0 8px;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    color: var(--c-text-2);
+  }
+  .more__link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 0;
+    border-bottom: 1px solid rgb(214, 224, 242);
+    color: rgb(37, 40, 71);
+  }
+  .more__link:hover {
+    color: var(--c-accent);
+  }
+  .more__text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+  .more__cat {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--c-accent);
+  }
+  .more__q {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+  }
+  .more__arrow {
+    color: var(--c-accent);
+  }
+  @media (max-width: 760px) {
+    .faq {
+      padding-top: 40px;
+    }
+    .faq__title {
+      font-size: 30px;
+    }
+    .help {
+      padding: 24px;
+    }
+  }
+</style>

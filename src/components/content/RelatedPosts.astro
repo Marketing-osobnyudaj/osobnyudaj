@@ -1,0 +1,68 @@
+---
+import PostCard from './PostCard.astro';
+import type { Post } from '../../data/blog';
+
+interface Props {
+  posts: Post[];
+  title?: string;
+}
+const { posts, title = 'Súvisiace články' } = Astro.props;
+---
+
+{
+  posts.length > 0 && (
+    <section class="related" aria-labelledby="related-title">
+      <div class="related__bg" aria-hidden="true" />
+      <div class="related__line" aria-hidden="true" />
+      <div class="related__inner container">
+        <div class="section-head section-head--center related__head">
+          <div class="eyebrow">/ Blog /</div>
+          <h2 class="h2 h2--sm" id="related-title">
+            {title}
+          </h2>
+        </div>
+        <div class="related__grid">
+          {posts.map((p) => (
+            <PostCard post={p} variant="related" />
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .related {
+    position: relative;
+    padding: 160px 0 128px;
+  }
+  .related__bg {
+    position: absolute;
+    inset: 0;
+    background: var(--c-tint);
+    clip-path: polygon(0 70px, 100% 0, 100% 100%, 0 100%);
+  }
+  .related__line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 80px;
+    background: var(--c-navy);
+    clip-path: polygon(0 calc(100% - 10px), 100% 0, 100% 4px, 0 100%);
+  }
+  .related__inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+  .related__head {
+    gap: 12px;
+  }
+  .related__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+    gap: 56px 30px;
+  }
+</style>

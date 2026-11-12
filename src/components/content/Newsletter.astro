@@ -1,0 +1,147 @@
+---
+interface Props {
+  /** Drop the top margin when the section directly follows another tinted section. */
+  flush?: boolean;
+}
+const { flush = false } = Astro.props;
+---
+
+<section class:list={['nl', { 'nl--flush': flush }]} aria-labelledby="nl-title" data-newsletter>
+  <div class="nl__bg" aria-hidden="true"></div>
+  <div class="nl__line" aria-hidden="true"></div>
+  <form class="nl__form" data-nl-form>
+    <h2 class="nl__title" id="nl-title">Odoberajte novinky od osobnyudaj.sk</h2>
+    <div class="nl__done" data-nl-done hidden role="status">Ďakujeme, novinky vám budeme posielať na váš e-mail.</div>
+    <div class="nl__fields" data-nl-fields>
+      <label class="nl__label">
+        E-mail
+        <input type="email" name="email" required placeholder="Váš e-mail" autocomplete="email" />
+      </label>
+      <p class="nl__note">
+        Vaša e-mailová adresa je u nás v bezpečí, prečítajte si naše podmienky spracovania osobných údajov.
+      </p>
+      <button type="submit" class="nl__submit">Odoslať žiadosť</button>
+    </div>
+  </form>
+</section>
+
+<style>
+  .nl {
+    position: relative;
+    margin-top: 96px;
+    padding: 160px var(--gutter) 200px;
+  }
+  .nl--flush {
+    margin-top: 0;
+  }
+  .nl__bg {
+    position: absolute;
+    inset: 0;
+    background: var(--c-tint);
+    clip-path: polygon(0 70px, 100% 0, 100% 100%, 0 100%);
+  }
+  .nl__line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 80px;
+    background: var(--c-accent);
+    clip-path: polygon(0 calc(100% - 10px), 100% 0, 100% 4px, 0 100%);
+  }
+  .nl__form {
+    position: relative;
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 48px 48px 40px;
+    border-radius: var(--radius);
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    box-shadow: 0 25px 25px rgba(119, 138, 178, 0.07), 0 6px 14px rgba(119, 138, 178, 0.08),
+      0 0 2px rgba(163, 170, 181, 0.7);
+  }
+  .nl__title {
+    margin: 0 0 12px;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    color: var(--c-navy);
+    text-align: center;
+  }
+  .nl__fields {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .nl__fields[hidden],
+  .nl__done[hidden] {
+    display: none;
+  }
+  .nl__label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--c-text-2);
+  }
+  .nl__label input {
+    height: 44px;
+    border: 0;
+    border-radius: 2px;
+    background: rgb(243, 244, 246);
+    padding: 0 14px;
+    font: 400 15px var(--font-body);
+    color: var(--c-text-2);
+    outline-color: var(--c-primary-light);
+  }
+  .nl__note {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--c-text-2);
+  }
+  .nl__submit {
+    height: 44px;
+    border: 0;
+    border-radius: 2px;
+    background: var(--c-accent);
+    color: #fff;
+    font: 600 15px var(--font-body);
+    cursor: pointer;
+  }
+  .nl__submit:hover {
+    background: var(--c-accent-hover);
+  }
+  .nl__done {
+    padding: 20px;
+    border-radius: var(--radius);
+    background: var(--c-tint);
+    text-align: center;
+    font-size: 16px;
+    color: var(--c-text-2);
+  }
+  @media (max-width: 520px) {
+    .nl__form {
+      padding: 40px 24px 32px;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-newsletter]').forEach((root) => {
+    const form = root.querySelector<HTMLFormElement>('[data-nl-form]');
+    const fields = root.querySelector<HTMLElement>('[data-nl-fields]');
+    const done = root.querySelector<HTMLElement>('[data-nl-done]');
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      // TODO: backend – subscribe the e-mail to the newsletter.
+      if (fields) fields.hidden = true;
+      if (done) done.hidden = false;
+    });
+  });
+</script>

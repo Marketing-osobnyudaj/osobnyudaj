@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FaqArticle from '../../components/content/FaqArticle.astro';
+import RelatedPosts from '../../components/content/RelatedPosts.astro';
+import Newsletter from '../../components/content/Newsletter.astro';
+import { faqs, type Faq } from '../../data/faq';
+import { relatedPosts } from '../../data/blog';
+
+export function getStaticPaths() {
+  return faqs.map((faq) => ({ params: { slug: faq.slug }, props: { faq } }));
+}
+
+const { faq } = Astro.props as { faq: Faq };
+---
+
+<BaseLayout title={`${faq.q} – Často kladené otázky – Osobný údaj`} description={faq.a.slice(0, 160)}>
+  <FaqArticle faq={faq} />
+  <RelatedPosts posts={relatedPosts([faq.cat])} />
+  <Newsletter flush />
+</BaseLayout>

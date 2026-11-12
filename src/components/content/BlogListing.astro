@@ -1,0 +1,462 @@
+---
+import PostCard from './PostCard.astro';
+import Pager from './Pager.astro';
+import { posts, quickCats, blogSegments, POSTS_PER_PAGE, TOPICS_MAX } from '../../data/blog';
+
+const catsWith = [...new Set(posts.flatMap((p) => p.cats))];
+const quick = quickCats.filter((c) => catsWith.includes(c));
+const catCount = (c: string) => posts.filter((p) => p.cats.includes(c)).length;
+
+const topicCount: Record<string, number> = {};
+posts.forEach((p) => p.tags.forEach((t) => (topicCount[t] = (topicCount[t] ?? 0) + 1)));
+const topics = Object.keys(topicCount).sort((a, b) => topicCount[b] - topicCount[a]);
+
+const plural = (n: number) => (n === 1 ? 'článok' : n > 1 && n < 5 ? 'články' : 'článkov');
+const pages = Math.ceil(posts.length / POSTS_PER_PAGE);
+---
+
+<section class="blog container" data-blog data-per={POSTS_PER_PAGE}>
+  <h1 class="blog__title">Blog</h1>
+
+  <div class="blog__bar">
+    {
+      quick.map((c) => (
+        <button type="button" class="quick" data-quick={c} aria-pressed="false">
+          {c}
+        </button>
+      ))
+    }
+    <button type="button" class="filter-btn" data-filter-open aria-haspopup="dialog" aria-controls="blog-filter">
+      <span data-filter-label>Filter</span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"></path><circle cx="16" cy="7" r="2"></circle><circle cx="10" cy="17" r="2"></circle></svg>
+    </button>
+  </div>
+
+  <div class="blog__result" aria-live="polite">
+    <span data-result>{posts.length} {plural(posts.length)}</span>
+    <button type="button" class="blog__reset" data-reset hidden>Zrušiť filter ×</button>
+  </div>
+
+  <div class="blog__grid">
+    {posts.map((p, i) => <PostCard post={p} hidden={i >= POSTS_PER_PAGE} />)}
+  </div>
+  <p class="blog__empty" data-empty hidden>Filtru nezodpovedajú žiadne články.</p>
+
+  <Pager pages={pages} />
+</section>
+
+<div class="drawer" id="blog-filter" data-drawer hidden>
+  <div class="drawer__backdrop" data-filter-close></div>
+  <aside class="drawer__panel" role="dialog" aria-modal="true" aria-labelledby="blog-filter-title">
+    <div class="drawer__head">
+      <h2 class="drawer__title" id="blog-filter-title">Filtrovanie</h2>
+      <button type="button" class="drawer__close" aria-label="Zavrieť" data-filter-close>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19"></path></svg>
+      </button>
+    </div>
+    <div class="drawer__body">
+      <fieldset class="group">
+        <legend>Kategória</legend>
+        <div class="chips">
+          {
+            catsWith.map((c) => (
+              <button type="button" class="chip" data-chip="c" data-value={c} aria-pressed="false">
+                {c} {catCount(c)}
+              </button>
+            ))
+          }
+        </div>
+      </fieldset>
+      <fieldset class="group">
+        <legend>Segment</legend>
+        <div class="chips">
+          {
+            blogSegments.map((s) => (
+              <button type="button" class="chip" data-chip="s" data-value={s} aria-pressed="false">
+                {s}
+              </button>
+            ))
+          }
+        </div>
+      </fieldset>
+      {
+        topics.length > 0 && (
+          <fieldset class="group">
+            <legend>Témy</legend>
+            <div class="chips" data-topics>
+              {topics.map((t, i) => (
+                <button type="button" class="chip" data-chip="t" data-value={t} aria-pressed="false" data-extra={i >= TOPICS_MAX ? '' : undefined} hidden={i >= TOPICS_MAX}>
+                  {t} {topicCount[t]}
+                </button>
+              ))}
+              {topics.length > TOPICS_MAX && (
+                <button type="button" class="chip-more" data-topics-more data-label-more={`Zobraziť všetky (${topics.length})`}>
+                  Zobraziť všetky ({topics.length})
+                </button>
+              )}
+            </div>
+          </fieldset>
+        )
+      }
+    </div>
+    <div class="drawer__foot">
+      <button type="button" class="drawer__apply" data-filter-apply>Zobraziť</button>
+      <button type="button" class="drawer__clear" data-filter-clear disabled>Vymazať všetko</button>
+    </div>
+  </aside>
+</div>
+
+<style>
+  .blog {
+    max-width: 1280px;
+    padding-top: 96px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  .blog__title {
+    margin: 0;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: var(--c-navy);
+  }
+  .blog__bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    align-items: center;
+  }
+  .quick {
+    height: 36px;
+    padding: 0 12px;
+    border: 0;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font: 500 14px var(--font-body);
+    color: var(--c-accent);
+    background: transparent;
+  }
+  .quick:hover {
+    background: rgb(251, 236, 235);
+  }
+  .quick[aria-pressed='true'] {
+    color: #fff;
+    background: var(--c-accent);
+  }
+  .filter-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 36px;
+    padding: 0 12px;
+    border: 0;
+    border-radius: var(--radius);
+    background: var(--c-accent);
+    color: #fff;
+    font: 500 14px var(--font-body);
+    cursor: pointer;
+  }
+  .filter-btn:hover {
+    background: var(--c-accent-hover);
+  }
+  .blog__result {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: -16px;
+    font-size: 15px;
+    color: rgb(110, 118, 132);
+  }
+  .blog__reset {
+    border: 0;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    font: 600 15px var(--font-body);
+    color: var(--c-accent);
+  }
+  .blog__reset[hidden],
+  .blog__empty[hidden] {
+    display: none;
+  }
+  .blog__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+    gap: 56px 30px;
+  }
+  .blog__empty {
+    margin: 0;
+    padding: 40px 0;
+    font-size: 17px;
+    text-align: center;
+    color: rgb(110, 118, 132);
+  }
+
+  /* Filter drawer */
+  .drawer {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .drawer[hidden] {
+    display: none;
+  }
+  .drawer__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(40, 44, 52, 0.12);
+  }
+  .drawer__panel {
+    position: relative;
+    width: min(100%, 474px);
+    height: 100%;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    box-shadow: -6px 0 24px rgba(0, 0, 0, 0.08);
+  }
+  .drawer__head {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 24px;
+  }
+  .drawer__title {
+    margin: 0;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+    color: var(--c-navy);
+  }
+  .drawer__close {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--c-accent);
+  }
+  .drawer__body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  .group {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    min-width: 0;
+  }
+  .group legend {
+    padding: 0;
+    margin-bottom: 20px;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1.2;
+    color: var(--c-text-2);
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .chip {
+    height: 30px;
+    padding: 0 10px;
+    border: 0;
+    border-radius: 2px;
+    cursor: pointer;
+    font: 500 14px var(--font-body);
+    background: rgb(243, 244, 246);
+    color: var(--c-text-2);
+  }
+  .chip[hidden] {
+    display: none;
+  }
+  .chip[aria-pressed='true'] {
+    background: var(--c-accent);
+    color: #fff;
+  }
+  .chip-more {
+    height: 30px;
+    padding: 0 10px;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    font: 500 14px var(--font-body);
+    color: var(--c-accent);
+  }
+  .drawer__foot {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 16px 20px 12px;
+  }
+  .drawer__apply,
+  .drawer__clear {
+    height: 48px;
+    border: 0;
+    border-radius: 2px;
+    cursor: pointer;
+    font: 700 17px var(--font-body);
+  }
+  .drawer__apply {
+    background: var(--c-accent);
+    color: #fff;
+  }
+  .drawer__apply:hover {
+    background: var(--c-accent-hover);
+  }
+  .drawer__clear {
+    background: rgb(243, 244, 246);
+    color: var(--c-text-2);
+  }
+  .drawer__clear:disabled {
+    cursor: default;
+    color: rgb(200, 203, 209);
+  }
+  @media (max-width: 760px) {
+    .blog {
+      padding-top: 56px;
+    }
+    .blog__title {
+      font-size: 32px;
+    }
+  }
+</style>
+
+<script>
+  import { createPager } from './pager';
+
+  type Sel = { c: string[]; s: string[]; t: string[] };
+  type Group = keyof Sel;
+  const empty = (): Sel => ({ c: [], s: [], t: [] });
+  const plural = (n: number) => (n === 1 ? 'článok' : n > 1 && n < 5 ? 'články' : 'článkov');
+
+  document.querySelectorAll<HTMLElement>('[data-blog]').forEach((root) => {
+    const drawer = document.querySelector<HTMLElement>('[data-drawer]');
+    const cards = Array.from(root.querySelectorAll<HTMLElement>('[data-post]'));
+    const pagerEl = root.querySelector<HTMLElement>('[data-pager]');
+    const pager = pagerEl ? createPager(pagerEl, cards, Number(root.dataset.per) || 12) : null;
+    const quickBtns = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-quick]'));
+    const openBtn = root.querySelector<HTMLButtonElement>('[data-filter-open]');
+    const label = root.querySelector<HTMLElement>('[data-filter-label]');
+    const result = root.querySelector<HTMLElement>('[data-result]');
+    const reset = root.querySelector<HTMLButtonElement>('[data-reset]');
+    const emptyMsg = root.querySelector<HTMLElement>('[data-empty]');
+    const chips = Array.from(drawer?.querySelectorAll<HTMLButtonElement>('[data-chip]') ?? []);
+    const clearBtn = drawer?.querySelector<HTMLButtonElement>('[data-filter-clear]');
+
+    let quick: string | null = null;
+    let applied = empty();
+    let pending = empty();
+
+    const list = (el: HTMLElement, key: string) => (el.dataset[key] ? el.dataset[key]!.split('|') : []);
+    const matches = (el: HTMLElement) => {
+      const cats = list(el, 'cats');
+      return (
+        (!quick || cats.includes(quick)) &&
+        (!applied.c.length || cats.some((x) => applied.c.includes(x))) &&
+        (!applied.s.length || list(el, 'segs').some((x) => applied.s.includes(x))) &&
+        (!applied.t.length || list(el, 'tags').some((x) => applied.t.includes(x)))
+      );
+    };
+
+    const update = () => {
+      const shown = cards.filter(matches);
+      pager?.setItems(shown);
+      if (!pager) cards.forEach((c) => (c.hidden = !shown.includes(c)));
+      const nAct = applied.c.length + applied.s.length + applied.t.length;
+      if (result) result.textContent = `${shown.length} ${plural(shown.length)}${nAct || quick ? ' podľa filtra' : ''}`;
+      if (label) label.textContent = nAct ? `Filter (${nAct})` : 'Filter';
+      if (reset) reset.hidden = !(nAct || quick);
+      if (emptyMsg) emptyMsg.hidden = shown.length > 0;
+      quickBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.quick === quick)));
+    };
+
+    const syncChips = () => {
+      chips.forEach((b) => {
+        const g = b.dataset.chip as Group;
+        b.setAttribute('aria-pressed', String(pending[g].includes(b.dataset.value!)));
+      });
+      if (clearBtn) clearBtn.disabled = pending.c.length + pending.s.length + pending.t.length === 0;
+    };
+
+    const open = () => {
+      if (!drawer) return;
+      pending = { c: [...applied.c], s: [...applied.s], t: [...applied.t] };
+      syncChips();
+      drawer.hidden = false;
+      document.body.style.overflow = 'hidden';
+      drawer.querySelector<HTMLElement>('.drawer__close')?.focus();
+    };
+    const close = () => {
+      if (!drawer || drawer.hidden) return;
+      drawer.hidden = true;
+      document.body.style.overflow = '';
+      openBtn?.focus();
+    };
+
+    quickBtns.forEach((b) =>
+      b.addEventListener('click', () => {
+        quick = quick === b.dataset.quick ? null : b.dataset.quick!;
+        update();
+      }),
+    );
+    reset?.addEventListener('click', () => {
+      quick = null;
+      applied = empty();
+      update();
+    });
+    openBtn?.addEventListener('click', open);
+    drawer?.querySelectorAll('[data-filter-close]').forEach((el) => el.addEventListener('click', close));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') close();
+    });
+    chips.forEach((b) =>
+      b.addEventListener('click', () => {
+        const g = b.dataset.chip as Group;
+        const v = b.dataset.value!;
+        pending = { ...pending, [g]: pending[g].includes(v) ? pending[g].filter((x) => x !== v) : [...pending[g], v] };
+        syncChips();
+      }),
+    );
+    clearBtn?.addEventListener('click', () => {
+      pending = empty();
+      syncChips();
+    });
+    drawer?.querySelector('[data-filter-apply]')?.addEventListener('click', () => {
+      applied = pending;
+      update();
+      close();
+    });
+    const more = drawer?.querySelector<HTMLButtonElement>('[data-topics-more]');
+    more?.addEventListener('click', () => {
+      const extra = Array.from(drawer!.querySelectorAll<HTMLElement>('[data-extra]'));
+      const showAll = extra[0]?.hidden ?? false;
+      extra.forEach((el) => (el.hidden = !showAll));
+      more.textContent = showAll ? 'Zobraziť menej' : more.dataset.labelMore!;
+    });
+
+    update();
+  });
+</script>

@@ -1,0 +1,320 @@
+---
+import { routes } from '../../data/site';
+import { authors, longDate, type Post, type BlogBlock } from '../../data/blog';
+
+interface Props {
+  post: Post;
+}
+const { post } = Astro.props;
+const author = authors[post.author];
+
+// Group consecutive text blocks so quotes and figures can break out of the 680px text column.
+type Chunk = { wide: false; blocks: BlogBlock[] } | { wide: true; block: BlogBlock };
+const chunks: Chunk[] = [];
+for (const b of post.body ?? []) {
+  if (b.type === 'quote' || b.type === 'figure') chunks.push({ wide: true, block: b });
+  else {
+    const last = chunks[chunks.length - 1];
+    if (last && !last.wide) last.blocks.push(b);
+    else chunks.push({ wide: false, blocks: [b] });
+  }
+}
+const meta = [
+  { label: 'Kategórie', items: post.cats },
+  { label: 'Segmenty', items: post.segs },
+  { label: 'Témy', items: post.tags },
+].filter((m) => m.items.length);
+---
+
+<article class="article">
+  <header class="article__hero">
+    <div class="article__intro">
+      <a href={routes.blog} class="article__back">← Späť na Blog</a>
+      <div class="article__tags">
+        {post.media && <span class="article__media" aria-hidden="true">{post.media}</span>}
+        {post.cats.map((c) => <span>{c}</span>)}
+      </div>
+      <h1 class="article__title">{post.title}</h1>
+      <time class="article__date" datetime={post.date}>{longDate(post.date)}</time>
+    </div>
+    <img class="article__img" src={post.img} alt="" />
+  </header>
+
+  <div class="article__content">
+    {
+      chunks.length === 0 && (
+        <div class="text">
+          {/* TODO: real copy – only the sample article has a body in the design. */}
+          <p>Celý text článku pripravujeme.</p>
+        </div>
+      )
+    }
+    {
+      chunks.map((c) =>
+        !c.wide ? (
+          <div class="text">
+            {c.blocks.map((b) => (b.type === 'h2' ? <h2>{b.text}</h2> : <p>{b.text}</p>))}
+          </div>
+        ) : c.block.type === 'quote' ? (
+          <blockquote class="quote">{c.block.text}</blockquote>
+        ) : c.block.type === 'figure' ? (
+          <figure class="figure">
+            {c.block.img ? <img src={c.block.img} alt="" /> : <div class="figure__ph">Obrázok k článku</div>}
+            <figcaption>{c.block.caption}</figcaption>
+          </figure>
+        ) : null,
+      )
+    }
+
+    <footer class="text article__foot">
+      {
+        meta.length > 0 && (
+          <dl class="meta">
+            {meta.map((m) => (
+              <div class="meta__row">
+                <dt>{m.label}</dt>
+                {m.items.map((x) => (
+                  <dd>{x}</dd>
+                ))}
+              </div>
+            ))}
+          </dl>
+        )
+      }
+      {
+        author && (
+          <div class="author">
+            <div class="author__head">
+              <img src={author.avatar} alt="" width="56" height="56" />
+              <div>
+                <strong>{author.name}</strong>
+                <span>{author.role}</span>
+              </div>
+            </div>
+            <p class="author__bio">{author.bio}</p>
+          </div>
+        )
+      }
+    </footer>
+  </div>
+</article>
+
+<style>
+  .article {
+    padding: 56px var(--gutter) 128px;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--c-text-2);
+  }
+  .article__hero {
+    max-width: 1080px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+    gap: 40px;
+    align-items: end;
+  }
+  .article__intro {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 0;
+  }
+  .article__back {
+    align-self: flex-start;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--c-accent);
+  }
+  .article__back:hover {
+    color: var(--c-accent-hover);
+  }
+  .article__tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 12px;
+    margin-top: 24px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--c-accent);
+  }
+  .article__media {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 18px;
+    border-radius: 3px;
+    background: rgb(251, 226, 224);
+    font-size: 10px;
+  }
+  .article__title {
+    margin: 0;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: var(--c-navy);
+    text-wrap: pretty;
+    overflow-wrap: break-word;
+  }
+  .article__date {
+    font-size: 14px;
+    color: rgb(120, 126, 138);
+  }
+  .article__img {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+  }
+  .article__content {
+    margin-top: 96px;
+  }
+  .text {
+    max-width: 680px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .text p {
+    margin: 0;
+  }
+  .text h2 {
+    margin: 24px 0 0;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    color: var(--c-text-2);
+  }
+  .quote {
+    max-width: 960px;
+    margin: 96px auto;
+    font-family: var(--font-head);
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    text-align: center;
+    color: var(--c-text-2);
+    text-wrap: balance;
+  }
+  .figure {
+    max-width: 960px;
+    margin: 64px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .figure img,
+  .figure__ph {
+    width: 100%;
+    aspect-ratio: 16 / 8;
+    border-radius: var(--radius-lg);
+    object-fit: cover;
+  }
+  .figure__ph {
+    background: repeating-linear-gradient(135deg, rgb(226, 234, 248) 0 12px, rgb(235, 241, 251) 12px 24px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: rgb(110, 125, 150);
+  }
+  .figure figcaption {
+    max-width: 680px;
+    margin: 0 auto;
+    width: 100%;
+    font-size: 13px;
+    font-style: italic;
+    color: rgb(120, 126, 138);
+  }
+  .article__foot {
+    margin-top: 48px;
+  }
+  .meta {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid rgb(226, 229, 235);
+  }
+  .meta__row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .meta dt {
+    width: 72px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .meta dd {
+    margin: 0;
+    padding: 4px 8px;
+    border-radius: 2px;
+    background: rgb(243, 244, 246);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+  .author {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 16px;
+  }
+  .author__head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .author__head img {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .author__head div {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.4;
+  }
+  .author__head strong {
+    font-family: var(--font-head);
+    font-size: 16px;
+  }
+  .author__head span {
+    font-size: 14px;
+    color: rgb(120, 126, 138);
+  }
+  .author__bio {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  @media (max-width: 760px) {
+    .article {
+      padding-top: 40px;
+    }
+    .article__title {
+      font-size: 30px;
+    }
+    .article__content {
+      margin-top: 56px;
+    }
+    .quote {
+      margin: 56px auto;
+      font-size: 24px;
+    }
+    .figure {
+      margin: 40px auto;
+    }
+  }
+</style>

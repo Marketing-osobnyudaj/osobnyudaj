@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SearchHero from '../../components/content/SearchHero.astro';
+import FaqBrowser from '../../components/content/FaqBrowser.astro';
+import QuoteForm from '../../components/sections/QuoteForm.astro';
+---
+
+<BaseLayout
+  title="Často kladené otázky – Osobný údaj"
+  description="Odpovede na najčastejšie otázky o ochrane osobných údajov, GDPR a kybernetickej bezpečnosti."
+>
+  <SearchHero
+    name="faq"
+    eyebrow="Často kladené otázky"
+    title="Ako vám môžeme pomôcť?"
+    placeholder="Hľadať otázku"
+    popular={['Kyberšikana', 'Zastupovanie pri kontrole', 'Školenie pre mestský úrad', 'Kyberšikana na škole']}
+  />
+  <FaqBrowser />
+  <QuoteForm />
+</BaseLayout>

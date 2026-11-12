@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SearchHero from '../components/content/SearchHero.astro';
+import Glossary from '../components/content/Glossary.astro';
+import QuoteForm from '../components/sections/QuoteForm.astro';
+import { popularTerms } from '../data/slovnik';
+---
+
+<BaseLayout
+  title="Slovník pojmov – Osobný údaj"
+  description="Slovník pojmov z oblasti ochrany osobných údajov, GDPR a kybernetickej bezpečnosti."
+>
+  <SearchHero
+    name="slovnik"
+    eyebrow="Slovník pojmov"
+    title="Ako vám môžeme pomôcť?"
+    placeholder="Hľadať pojem, napr. phishing"
+    popular={popularTerms}
+  />
+  <Glossary />
+  <QuoteForm />
+</BaseLayout>
