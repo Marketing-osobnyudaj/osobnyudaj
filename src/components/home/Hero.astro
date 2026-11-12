@@ -1,0 +1,181 @@
+---
+interface Props {
+  title?: string;
+}
+const { title = 'Chránime fyzický a digitálny svet občanov Slovenska' } = Astro.props;
+---
+
+<section class="hero">
+  <div class="hero__content container">
+    <h1 class="hero__title">{title}</h1>
+    <div class="hero__ctas">
+      <a href="#cenova-ponuka" class="btn btn--primary btn--shadow">Vyskúšať zadarmo</a>
+      <a href="#cenova-ponuka" class="btn btn--outline-light">Bezplatná cenová ponuka</a>
+    </div>
+    <div class="hero__proof">
+      <div class="proof">
+        <div class="proof__avatars">
+          <img src="/img/avatar-1.jpg" alt="" width="40" height="40" />
+          <img src="/img/avatar-2.jpg" alt="" width="40" height="40" />
+          <img src="/img/avatar-3.jpg" alt="" width="40" height="40" />
+        </div>
+        <div class="proof__title">4,9 / 5 <span class="stars" aria-label="5 hviezdičiek">★★★★★</span></div>
+        <div class="proof__text">Priemerné hodnotenie viac ako 1700 overených klientov</div>
+      </div>
+      <div class="proof">
+        <img src="/img/zmos.png" alt="ZMOS" width="40" height="40" class="proof__logo" />
+        <div class="proof__title">ZMOS</div>
+        <div class="proof__text">Sme hlavným partnerom Združenia miest a obcí</div>
+        <div class="proof__dots" aria-hidden="true"><span class="is-active"></span><span></span><span></span><span></span></div>
+      </div>
+    </div>
+  </div>
+  <div class="hero__image" aria-hidden="true">
+    <img src="/img/2ac9866d4c010eeb.png" alt="" />
+  </div>
+  <div class="hero__cut" aria-hidden="true"></div>
+  <div class="hero__stripe" aria-hidden="true"></div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    background: var(--grad-blue);
+    color: #fff;
+    overflow: hidden;
+  }
+  .hero__content {
+    position: relative;
+    z-index: 1;
+    padding-top: 96px;
+    padding-bottom: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  .hero__title {
+    margin: 0;
+    max-width: 640px;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 56px;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    text-wrap: pretty;
+  }
+  .hero__ctas {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .hero__proof {
+    display: flex;
+    gap: 72px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+  }
+  .proof {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .proof__avatars {
+    display: flex;
+  }
+  .proof__avatars img,
+  .proof__logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .proof__avatars img {
+    box-shadow: 0 0 0 2px var(--c-primary);
+  }
+  .proof__avatars img + img {
+    margin-left: -10px;
+  }
+  .proof__title {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 17px;
+  }
+  .proof__text {
+    max-width: 220px;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  .proof__dots {
+    display: flex;
+    gap: 6px;
+    margin-top: 4px;
+  }
+  .proof__dots span {
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.5);
+  }
+  .proof__dots span.is-active {
+    width: 24px;
+    background: #fff;
+  }
+
+  .hero__image {
+    position: absolute;
+    top: 0;
+    right: max(0px, calc((100vw - 1440px) / 2));
+    width: min(760px, 55vw);
+    height: 720px;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .hero__image img {
+    position: absolute;
+    left: -342px;
+    top: -9px;
+    width: 1217px;
+    height: 1699px;
+    max-width: none;
+    object-fit: cover;
+  }
+  .hero__cut {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 140px;
+    background: #fff;
+    clip-path: polygon(0 100%, 100% 18%, 100% 100%);
+  }
+  .hero__stripe {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 140px;
+    background: var(--grad-accent);
+    clip-path: polygon(0 85%, 100% 3%, 100% 18%, 0 100%);
+  }
+
+  @media (max-width: 1099px) {
+    .hero__image {
+      display: none;
+    }
+  }
+  @media (max-width: 760px) {
+    .hero__content {
+      padding-top: 56px;
+      padding-bottom: 140px;
+    }
+    .hero__title {
+      font-size: 38px;
+    }
+    .hero__proof {
+      gap: 32px;
+    }
+  }
+</style>

@@ -1,0 +1,366 @@
+---
+import { services, serviceIcon, priceLabel } from '../../data/site';
+
+const preselected = ['2-kyberbezpecnost', '3-kybersikana', '4-ochrana-oznamovatelov', '6-anonymizer'];
+---
+
+<section class="quote" id="cenova-ponuka" data-quote>
+  <div class="quote__bg" aria-hidden="true"></div>
+  <div class="quote__line" aria-hidden="true"></div>
+  <div class="quote__inner container">
+    <h2 class="h2 h2--sm quote__title">Mám záujem o bezplatnú cenovú ponuku</h2>
+
+    <!-- Step 1 -->
+    <div class="step1" data-step="1">
+      <div class="perks">
+        <div class="perk">
+          <div class="perk__head">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12V4a1 1 0 0 1 1-1h8l9 9-9 9-9-9z"></path><circle cx="8" cy="8" r="1.5"></circle></svg>
+            Od 9,99 € / mesiac
+          </div>
+          <p>Každý si zaslúži byť chránený. Naše služby začínajú už od 9,99 € mesačne.</p>
+        </div>
+        <div class="perk">
+          <div class="perk__head">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="1.5"></rect><path d="M4 10h16M8 3v4M16 3v4"></path></svg>
+            Prvých 30-dní zadarmo
+          </div>
+          <p>Prvých 30 dní máte zadarmo. Získate plnú verziu so všetkými funkciami a bez akýchkoľvek obmedzení.</p>
+        </div>
+        <div class="perks__divider"></div>
+        <div class="perk">
+          <div class="perk__head">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="3.5" fill="currentColor"></circle></svg>
+            Cenová ponuka do 24 hod.
+          </div>
+          <p class="perk__narrow">
+            Vyplňte krátku žiadosť a cenovú ponuku pre Vás pripravíme obratom. Po jej schválení si užívate 30 dní našich služieb úplne zadarmo.
+          </p>
+        </div>
+      </div>
+
+      <form class="card form form--step1" data-form-1>
+        <span class="form__counter">1/2</span>
+        <div class="form__fields">
+          <label class="field">E-mail *<input required type="email" name="email" placeholder="e-mail" autocomplete="email" /></label>
+          <label class="field">IČO<input name="ico" placeholder="IČO" /></label>
+          <label class="field">Správa<textarea name="message" placeholder="Správa" rows="4"></textarea></label>
+          <button type="submit" class="btn btn--primary btn--md form__submit">Pokračovať</button>
+        </div>
+        <span class="form__note">
+          Údaje z formulára spracúva spoločnosť Osobnyudaj.sk, s.r.o., viac v časti Ochrana osobných údajov.
+        </span>
+      </form>
+    </div>
+
+    <!-- Step 2 -->
+    <form class="card form form--step2" data-step="2" data-form-2 hidden>
+      <div class="form__top">
+        <button type="button" class="form__back" data-back>← Späť</button>
+        <span class="form__counter">2/2</span>
+      </div>
+      <h3 class="form__title">Pomôžte nám lepšie pochopiť Vaše potreby.</h3>
+      <label class="field">Meno a Priezvisko *<input required name="name" placeholder="Meno a Priezvisko" autocomplete="name" /></label>
+      <label class="field">Telefónne číslo *<input required type="tel" name="phone" placeholder="Telefónne číslo" autocomplete="tel" /></label>
+      <fieldset class="picks">
+        <legend>Služby o ktoré mate záujem</legend>
+        <div class="picks__grid">
+          {
+            services.map((s) => (
+              <label class="pick">
+                <input type="checkbox" name="services" value={s.id} checked={preselected.includes(s.id)} />
+                <img src={serviceIcon(s.id)} alt="" width="72" height="72" />
+                <span class="pick__title">{s.formTitle ?? s.title}</span>
+                <span class="pick__price">{priceLabel('Všeobecné', s.id)}</span>
+                <span class="pick__select"><span class="pick__radio" aria-hidden="true"></span>Vybrať</span>
+              </label>
+            ))
+          }
+        </div>
+      </fieldset>
+      <button type="submit" class="btn btn--primary btn--md form__submit">Odoslať</button>
+    </form>
+
+    <!-- Done -->
+    <div class="card done" data-step="3" hidden aria-live="polite">
+      <div class="done__title">Ďakujeme, žiadosť sme prijali.</div>
+      <div>Cenovú ponuku vám pripravíme do 24 hod.</div>
+      <button type="button" class="done__again" data-reset>Odoslať ďalšiu žiadosť →</button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .quote {
+    position: relative;
+    margin-top: 128px;
+    padding: 160px 0 200px;
+  }
+  .quote__bg {
+    position: absolute;
+    inset: 0;
+    background: var(--c-tint-2);
+    clip-path: polygon(0 84px, 100% 13px, 100% calc(100% - 70px), 0 100%);
+    pointer-events: none;
+  }
+  .quote__line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 100px;
+    background: linear-gradient(90deg, var(--c-accent) 0%, rgb(243, 130, 120) 100%);
+    clip-path: polygon(0 80px, 100% 9px, 100% 15px, 0 86px);
+    pointer-events: none;
+  }
+  .quote__inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .quote__title {
+    margin-bottom: 64px;
+    max-width: 606px;
+    text-align: center;
+  }
+  [hidden] {
+    display: none !important;
+  }
+
+  .step1 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 48px;
+    width: 100%;
+    max-width: 1182px;
+    align-items: flex-start;
+  }
+  .perks {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    width: 394px;
+    max-width: 100%;
+    padding-right: 30px;
+  }
+  .perk {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .perk__head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    color: var(--c-accent);
+  }
+  .perk__head svg {
+    flex-shrink: 0;
+  }
+  .perk p {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.4;
+    color: var(--c-text-2);
+  }
+  .perk .perk__narrow {
+    max-width: 319px;
+  }
+  .perks__divider {
+    height: 1px;
+    background: rgba(47, 54, 64, 0.2);
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+  }
+  .form--step1 {
+    flex: 1;
+    min-width: min(100%, 300px);
+    max-width: 708px;
+    gap: 10px;
+    padding: 48px clamp(24px, 8vw, 90px);
+  }
+  .form--step2 {
+    width: 100%;
+    max-width: 960px;
+    gap: 24px;
+    padding: 48px clamp(24px, 6vw, 90px);
+  }
+  .form__counter {
+    font-size: 17px;
+    font-weight: 500;
+    text-align: right;
+    color: var(--c-muted-2);
+  }
+  .form__fields {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .form__submit {
+    align-self: flex-end;
+    width: 240px;
+    max-width: 100%;
+  }
+  .form--step2 .form__submit {
+    margin-top: 16px;
+  }
+  .form__note {
+    margin-top: 22px;
+    font-size: 15px;
+    line-height: 1.3;
+  }
+  .form__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .form__back {
+    border: 0;
+    background: none;
+    padding: 0;
+    font: 500 15px var(--font-body);
+    color: var(--c-primary);
+    cursor: pointer;
+  }
+  .form__title {
+    margin: 0 0 16px;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    color: var(--c-navy);
+    text-align: center;
+  }
+
+  .picks {
+    margin: 24px 0 0;
+    padding: 0;
+    border: 0;
+  }
+  .picks legend {
+    padding: 0;
+    margin-bottom: 24px;
+    font-weight: 600;
+    font-size: 15px;
+  }
+  .picks__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 16px;
+  }
+  .pick {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 20px 12px;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    background: #fff;
+    box-shadow: 0 0 2px 0 rgba(163, 170, 181, 0.7), 0 6px 14px 0 rgba(119, 138, 178, 0.08);
+  }
+  .pick:has(input:checked) {
+    background: linear-gradient(180deg, rgb(237, 243, 252) 0%, var(--c-pale) 40%);
+  }
+  .pick:has(input:focus-visible) {
+    outline: 2px solid var(--c-primary-light);
+    outline-offset: 2px;
+  }
+  .pick input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .pick__title {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 17px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    text-align: center;
+  }
+  .pick__price {
+    font-size: 14px;
+  }
+  .pick__select {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 15px;
+    color: var(--c-primary);
+  }
+  .pick__radio {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid var(--c-primary);
+  }
+  .pick:has(input:checked) .pick__radio {
+    background: radial-gradient(circle, var(--c-primary) 0 3px, transparent 3.5px);
+  }
+
+  .done {
+    width: 100%;
+    max-width: 708px;
+    padding: 64px 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+    font-size: 17px;
+    line-height: 1.4;
+  }
+  .done__title {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 28px;
+    letter-spacing: -0.03em;
+    color: var(--c-navy);
+  }
+  .done__again {
+    margin-top: 8px;
+    border: 0;
+    background: none;
+    font: 600 17px var(--font-body);
+    color: var(--c-accent);
+    cursor: pointer;
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-quote]').forEach((root) => {
+    const steps = Array.from(root.querySelectorAll<HTMLElement>('[data-step]'));
+    const show = (n: number) => steps.forEach((s) => (s.hidden = s.dataset.step !== String(n)));
+    const form1 = root.querySelector<HTMLFormElement>('[data-form-1]');
+    const form2 = root.querySelector<HTMLFormElement>('[data-form-2]');
+
+    form1?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      show(2);
+    });
+    root.querySelector('[data-back]')?.addEventListener('click', () => show(1));
+    form2?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      // TODO: send form1 + form2 data to the backend / CRM.
+      show(3);
+    });
+    root.querySelector('[data-reset]')?.addEventListener('click', () => {
+      form1?.reset();
+      form2?.reset();
+      show(1);
+    });
+  });
+</script>

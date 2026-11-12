@@ -1,0 +1,246 @@
+---
+import { pickerSegments, services, serviceIcon, priceLabel, prices } from '../../data/site';
+
+const initial = pickerSegments[0];
+---
+
+<section class="services" data-services data-prices={JSON.stringify(prices)}>
+  <div class="services__bg" aria-hidden="true"></div>
+  <div class="services__glow" aria-hidden="true"></div>
+  <div class="services__inner container">
+    <div class="section-head section-head--center services__head">
+      <div class="eyebrow">/ Škálovateľné služby /</div>
+      <h2 class="h2 h2--sm">Vyberte si službu šitú na mieru pre váš segment</h2>
+    </div>
+
+    <div class="services__body">
+      <div class="tabs-scroll">
+        <div class="tabs" role="tablist" aria-label="Segment">
+          {
+            pickerSegments.map((label, i) => (
+              <button
+                type="button"
+                role="tab"
+                class="tab"
+                aria-selected={label === initial ? 'true' : 'false'}
+                data-segment={label}
+              >
+                <span class="tab__pointer" aria-hidden="true" />
+                <svg class="tab__check" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M6 2C3.79086 2 2 3.79086 2 6V14C2 16.2091 3.79086 18 6 18H14C16.2091 18 18 16.2091 18 14V6C18 3.79086 16.2091 2 14 2H6ZM14.0032 7.96402C14.2989 7.59437 14.239 7.05498 13.8693 6.75926C13.4997 6.46353 12.9603 6.52346 12.6645 6.89312L8.61208 11.9587L6.99098 10.7429C6.61227 10.4588 6.07502 10.5356 5.79098 10.9143C5.50696 11.293 5.5837 11.8303 5.96241 12.1143L8.24813 13.8286C8.6185 14.1064 9.14253 14.0398 9.43174 13.6783L14.0032 7.96402Z"
+                    fill="#fff"
+                  />
+                </svg>
+                <img class="tab__icon" src={`/assets/segments/${String(i).padStart(2, '0')}.svg`} alt="" width="20" height="20" />
+                <span class="tab__label">{label}</span>
+              </button>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="cards">
+        {
+          services.map((s) => {
+            const price = priceLabel(initial, s.id);
+            return (
+              <a href="#cenova-ponuka" class="svc-card card" data-service={s.id} hidden={price === null}>
+                <img src={serviceIcon(s.id)} alt="" width="120" height="120" />
+                <div class="svc-card__text">
+                  <div class="svc-card__title">{s.title}</div>
+                  <div class="svc-card__price" data-price>{price}</div>
+                </div>
+              </a>
+            );
+          })
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .services {
+    position: relative;
+    padding: 155px 0 96px;
+    overflow: hidden;
+  }
+  .services__bg {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 671px;
+    background: linear-gradient(180deg, rgb(225, 234, 249) 0%, rgba(237, 243, 252, 0.6) 60%, rgba(255, 255, 255, 0) 100%);
+    clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
+  }
+  .services__glow {
+    position: absolute;
+    left: 50%;
+    top: 101px;
+    width: 1185px;
+    height: 727px;
+    background: linear-gradient(90.043deg, rgba(92, 145, 229, 0) 0.04%, rgba(92, 145, 229, 0.1) 50.01%);
+    clip-path: polygon(0 15%, 100% 0, 100% 85%, 0 100%);
+    pointer-events: none;
+  }
+  .services__inner {
+    position: relative;
+    max-width: 1282px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 64px;
+  }
+  .services__head {
+    max-width: 640px;
+    gap: 12px;
+  }
+  .services__head .eyebrow {
+    mix-blend-mode: multiply;
+  }
+  .services__body {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+  }
+
+  .tabs-scroll {
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 9px;
+  }
+  .tabs {
+    display: flex;
+    gap: 6px;
+    width: max-content;
+  }
+  .tab {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 46px;
+    padding: 0 16px;
+    border: 0;
+    border-radius: var(--radius);
+    cursor: pointer;
+    white-space: nowrap;
+    font: 500 15px var(--font-body);
+    background: var(--c-chip);
+    color: var(--c-chip-text);
+  }
+  .tab__pointer,
+  .tab__check {
+    display: none;
+  }
+  .tab__icon {
+    display: block;
+    flex-shrink: 0;
+  }
+  .tab__label {
+    position: relative;
+  }
+  .tab[aria-selected='true'] {
+    background: var(--c-accent);
+    color: #fff;
+  }
+  .tab[aria-selected='true'] .tab__icon {
+    display: none;
+  }
+  .tab[aria-selected='true'] .tab__check {
+    display: block;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .tab[aria-selected='true'] .tab__pointer {
+    display: block;
+    position: absolute;
+    left: 50%;
+    bottom: -6px;
+    width: 12px;
+    height: 12px;
+    background: var(--c-accent);
+    transform: translateX(-50%) rotate(45deg);
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 30px;
+    width: 100%;
+  }
+  .svc-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 24px 20px;
+    color: var(--c-text-2);
+    transition: transform 0.15s;
+  }
+  .svc-card[hidden] {
+    display: none;
+  }
+  .svc-card:hover {
+    transform: translateY(-3px);
+    color: var(--c-text-2);
+  }
+  .svc-card img {
+    width: 120px;
+    height: 120px;
+    flex-shrink: 0;
+  }
+  .svc-card__text {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-self: stretch;
+    min-height: 74px;
+    justify-content: flex-end;
+    text-align: center;
+  }
+  .svc-card__title {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+  .svc-card__price {
+    font-size: 16px;
+    line-height: 1.4;
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-services]').forEach((root) => {
+    const prices: Record<string, Record<string, string>> = JSON.parse(root.dataset.prices || '{}');
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-segment]'));
+    const cards = Array.from(root.querySelectorAll<HTMLElement>('[data-service]'));
+
+    const label = (segment: string, id: string) => {
+      const n = id[0];
+      const own = prices[segment]?.[n];
+      if (own === '-') return null;
+      return `od ${own ?? prices['Všeobecné']?.[n] ?? '9,90'} € / mesiac`;
+    };
+
+    const select = (segment: string) => {
+      tabs.forEach((t) => t.setAttribute('aria-selected', String(t.dataset.segment === segment)));
+      cards.forEach((card) => {
+        const text = label(segment, card.dataset.service || '');
+        card.hidden = text === null;
+        const el = card.querySelector('[data-price]');
+        if (el && text) el.textContent = text;
+      });
+    };
+
+    tabs.forEach((t) => t.addEventListener('click', () => select(t.dataset.segment || '')));
+  });
+</script>

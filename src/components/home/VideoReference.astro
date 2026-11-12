@@ -1,0 +1,80 @@
+---
+import { routes } from '../../data/site';
+---
+
+<section class="video container">
+  <div class="video__media">
+    <img src="/img/17431621eeee9312.jpg" alt="" loading="lazy" />
+    <button type="button" class="video__play" aria-label="Prehrať video">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg>
+    </button>
+  </div>
+  <div class="section-head">
+    <div class="eyebrow">/ Referencie /</div>
+    <h2 class="h2">Dôverujú nám tisíce klientov na celom Slovensku</h2>
+    <p class="lead">
+      Klienti sa spoliehajú na našu rýchlosť a profesionalitu. Spoločne budujeme prostredie, kde je bezpečie vždy na prvom mieste.
+    </p>
+    <a href={routes.referencie} class="link-arrow">Prečítajte si reálne skúsenosti a odporúčania našich klientov →</a>
+  </div>
+</section>
+
+<section class="cta container">
+  <h2 class="h2">Mám záujem o bezplatnú cenovú ponuku</h2>
+  <a href="#cenova-ponuka" class="btn btn--primary">Bezplatná cenová ponuka</a>
+</section>
+
+<style>
+  .video {
+    padding-top: 128px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+    gap: 64px;
+    align-items: center;
+  }
+  .video .lead {
+    line-height: 1.5;
+  }
+  .video__media {
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    aspect-ratio: 16 / 10;
+    background: var(--c-pale);
+  }
+  .video__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+  }
+  .video__play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 72px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 50%;
+    background: #fff;
+    color: var(--c-accent);
+    cursor: pointer;
+    box-shadow: var(--shadow-cta);
+  }
+
+  .cta {
+    padding-top: 128px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    text-align: center;
+  }
+  .cta .h2 {
+    max-width: 560px;
+  }
+</style>

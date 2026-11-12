@@ -1,0 +1,251 @@
+/* Design tokens for osobnyudaj.sk — taken from the "OSOBNYUDAJ.SK" design canvas. */
+:root {
+  --c-primary: rgb(45, 92, 183);
+  --c-primary-light: rgb(92, 145, 229);
+  --c-navy: rgb(21, 66, 161);
+  --c-accent: rgb(224, 96, 87);
+  --c-accent-hover: rgb(204, 78, 70);
+  --c-accent-light: rgb(255, 133, 125);
+  --c-text: rgb(47, 54, 64);
+  --c-text-2: rgb(48, 55, 69);
+  --c-text-3: rgb(72, 77, 87);
+  --c-muted: rgb(110, 116, 126);
+  --c-muted-2: rgb(151, 155, 162);
+  --c-border: rgb(232, 232, 234);
+  --c-field: rgb(244, 244, 245);
+  --c-hover: rgb(240, 240, 241);
+  --c-chip: rgb(245, 245, 246);
+  --c-chip-text: rgb(85, 91, 102);
+  --c-tint: rgb(237, 242, 252);
+  --c-tint-2: rgb(234, 241, 252);
+  --c-pale: rgb(219, 233, 255);
+  --c-on-blue-muted: rgb(173, 200, 242);
+  --c-star: rgb(234, 185, 0);
+
+  --grad-blue: linear-gradient(90deg, var(--c-primary) 30.29%, var(--c-primary-light) 100%);
+  --grad-accent: linear-gradient(90deg, var(--c-accent), var(--c-accent-light));
+
+  --font-body: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-head: 'Sora', 'IBM Plex Sans', sans-serif;
+
+  --radius: 4px;
+  --radius-lg: 8px;
+  --container: 1280px;
+  --gutter: 20px;
+
+  --shadow-card: 0 0 2px 0 rgba(163, 170, 181, 0.7), 0 99px 40px 0 rgba(119, 138, 178, 0.01),
+    0 56px 34px 0 rgba(119, 138, 178, 0.04), 0 25px 25px 0 rgba(119, 138, 178, 0.07),
+    0 6px 14px 0 rgba(119, 138, 178, 0.08);
+  --shadow-menu: 0 0 2px 0 rgba(163, 170, 181, 0.7), 0 56px 34px 0 rgba(119, 138, 178, 0.06),
+    0 25px 25px 0 rgba(119, 138, 178, 0.1), 0 6px 14px 0 rgba(119, 138, 178, 0.12);
+  --shadow-cta: 0 14px 14px rgba(0, 0, 0, 0.14);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: #fff;
+  color: var(--c-text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+}
+
+a {
+  color: var(--c-primary);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--c-accent);
+}
+
+button {
+  font: inherit;
+}
+
+/* ---------- Layout ---------- */
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+/* ---------- Typography ---------- */
+.eyebrow {
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--c-primary-light);
+}
+.eyebrow--on-blue {
+  color: var(--c-on-blue-muted);
+}
+
+.h2 {
+  margin: 0;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: var(--c-navy);
+  text-wrap: balance;
+}
+.h2--sm {
+  font-size: 36px;
+  line-height: 1.2;
+}
+
+.lead {
+  margin: 0;
+  font-size: 19px;
+  line-height: 1.4;
+}
+
+.section-head {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 760px;
+}
+.section-head--center {
+  align-items: center;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.link-arrow {
+  color: var(--c-accent);
+  font-weight: 600;
+  font-size: 17px;
+}
+.link-arrow:hover {
+  color: var(--c-accent-hover);
+}
+
+.stars {
+  letter-spacing: 2px;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 56px;
+  padding: 0 28px;
+  border: 0;
+  border-radius: var(--radius);
+  font: 600 17px var(--font-body);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.15s;
+}
+.btn--sm {
+  height: 40px;
+  padding: 0 20px;
+  font-size: 16px;
+}
+.btn--md {
+  height: 48px;
+}
+.btn--lg {
+  height: 72px;
+  padding: 0 40px;
+  font-size: 19px;
+}
+.btn--primary,
+.btn--primary:hover {
+  color: #fff;
+}
+.btn--primary {
+  background: var(--c-accent);
+}
+.btn--primary:hover {
+  background: var(--c-accent-hover);
+}
+.btn--outline-light {
+  color: #fff;
+  box-shadow: inset 0 0 0 1.5px #fff;
+  background: transparent;
+}
+.btn--outline-light:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+}
+.btn--shadow {
+  box-shadow: var(--shadow-cta);
+}
+
+/* ---------- Cards ---------- */
+.card {
+  border-radius: var(--radius-lg);
+  background: #fff;
+  box-shadow: var(--shadow-card);
+}
+
+/* ---------- Forms ---------- */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--c-text);
+}
+.field input,
+.field textarea {
+  height: 52px;
+  padding: 0 16px;
+  border-radius: var(--radius);
+  border: 1px solid var(--c-border);
+  background: var(--c-field);
+  font: 400 17px var(--font-body);
+  color: var(--c-text);
+  outline-color: var(--c-primary-light);
+}
+.field textarea {
+  height: auto;
+  min-height: 120px;
+  padding: 14px 16px;
+  resize: vertical;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  .h2 {
+    font-size: 32px;
+  }
+  .h2--sm {
+    font-size: 30px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

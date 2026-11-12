@@ -1,0 +1,56 @@
+---
+import { clientLogos } from '../data/site';
+---
+
+<div class="marquee">
+  <div class="marquee__track">
+    {
+      [...clientLogos, ...clientLogos].map((l, i) => (
+        <div class="marquee__item" aria-hidden={i >= clientLogos.length ? 'true' : undefined}>
+          <img src={l.src} alt={i >= clientLogos.length ? '' : l.alt} loading="lazy" />
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .marquee {
+    overflow: hidden;
+    width: 100%;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+  .marquee__track {
+    display: flex;
+    width: max-content;
+    animation: ou-marquee 40s linear infinite;
+  }
+  .marquee:hover .marquee__track {
+    animation-play-state: paused;
+  }
+  .marquee__item {
+    flex: 0 0 auto;
+    width: 170px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+  }
+  .marquee__item img {
+    max-height: 56px;
+    max-width: 130px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+  @keyframes ou-marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+</style>

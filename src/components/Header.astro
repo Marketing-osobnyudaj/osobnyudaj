@@ -1,0 +1,504 @@
+---
+import {
+  contact,
+  routes,
+  menuServices,
+  menuSegments,
+  menuPodpora,
+  menuONas,
+  serviceIcon,
+} from '../data/site';
+---
+
+<header class="site-header" data-header>
+  <div class="topbar container">
+    <div class="topbar__group">
+      <a href={`mailto:${contact.email}`}>{contact.email}</a>
+      <a href={contact.phoneHref}>{contact.phone}</a>
+    </div>
+    <nav class="topbar__group topbar__nav" aria-label="Doplnková navigácia">
+      <a href={routes.blog}>Blog</a>
+      <a href={routes.kontakt}>Kontakt</a>
+      <a href="#" lang="en">EN</a>
+    </nav>
+  </div>
+
+  <div class="mainbar">
+    <div class="mainbar__inner container">
+      <a href={routes.home} class="logo" aria-label="Osobný údaj – domov">
+        <img src="/assets/logo-osobnyudaj.png" alt="OSOBNÝ ÚDAJ" width="250" height="40" />
+      </a>
+
+      <button
+        class="burger"
+        type="button"
+        aria-expanded="false"
+        aria-controls="main-nav"
+        aria-label="Menu"
+        data-burger
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M3 6h18M3 12h18M3 18h18"></path>
+        </svg>
+      </button>
+
+      <nav class="nav" id="main-nav" aria-label="Hlavná navigácia" data-nav>
+        <div class="nav__item nav__item--static" data-menu>
+          <button class="nav__link" type="button" aria-expanded="false" data-menu-trigger>Služby</button>
+          <div class="mega" data-menu-panel hidden>
+            <div class="mega__panel">
+              <div class="mega__title">Naše služby na mieru</div>
+              <div class="mega__text">Vyberte si oblasť, s ktorou vám vieme pomôcť – rýchlo, spoľahlivo a odborne.</div>
+              <div class="mega__grid">
+                {
+                  menuServices.map((m) => (
+                    <a href={m.href} class="mega__link">
+                      <img src={m.icon ? serviceIcon(m.icon) : m.img} alt="" width="56" height="56" />
+                      {m.title}
+                    </a>
+                  ))
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav__item nav__item--static" data-menu>
+          <button class="nav__link" type="button" aria-expanded="false" data-menu-trigger>Segmenty</button>
+          <div class="mega mega--center" data-menu-panel hidden>
+            <div class="mega__panel">
+              <div class="mega__title">Riešenia prispôsobené pre váš segment</div>
+              <div class="mega__text">Vyberte typ organizácie alebo podnikania a pozrite si riešenia šité na mieru.</div>
+              <div class="mega__grid mega__grid--segments">
+                {
+                  menuSegments.map((m) => (
+                    <a href={m.href} class="mega__link">
+                      <img src={m.img} alt="" width="52" height="52" class="mega__seg-img" />
+                      {m.title}
+                    </a>
+                  ))
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <a href={routes.referencie} class="nav__link">Referencie</a>
+
+        <div class="nav__item" data-menu>
+          <button class="nav__link" type="button" aria-expanded="false" data-menu-trigger>Podpora</button>
+          <div class="dropdown" data-menu-panel hidden>
+            {menuPodpora.map((l) => <a href={l.href}>{l.title}</a>)}
+          </div>
+        </div>
+
+        <div class="nav__item" data-menu>
+          <button class="nav__link" type="button" aria-expanded="false" data-menu-trigger>O nás</button>
+          <div class="dropdown" data-menu-panel hidden>
+            {menuONas.map((l) => <a href={l.href}>{l.title}</a>)}
+          </div>
+        </div>
+
+        <div class="nav__mobile-extra">
+          <a href={routes.blog}>Blog</a>
+          <a href={routes.kontakt}>Kontakt</a>
+          <a href={`mailto:${contact.email}`}>{contact.email}</a>
+          <a href={contact.phoneHref}>{contact.phone}</a>
+        </div>
+      </nav>
+
+      <div class="actions">
+        <a href="#" class="login" aria-label="Prihlásiť">
+          <span class="login__label">Prihlásiť</span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"></circle>
+            <circle cx="12" cy="10" r="3.2"></circle>
+            <path d="M5.5 18.5c1.6-2.2 3.9-3.3 6.5-3.3s4.9 1.1 6.5 3.3"></path>
+          </svg>
+        </a>
+        <a href="#cenova-ponuka" class="btn btn--primary btn--sm">Konzultácia zdarma</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: relative;
+    z-index: 50;
+    background: #fff;
+  }
+  .site-header a {
+    color: var(--c-text);
+  }
+
+  /* Top bar */
+  .topbar {
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  .topbar__group {
+    display: flex;
+    gap: 36px;
+  }
+  .topbar__nav {
+    gap: 32px;
+  }
+
+  /* Main bar */
+  .mainbar {
+    border-top: 1px solid var(--c-border);
+  }
+  .mainbar__inner {
+    position: relative;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    gap: 48px;
+  }
+  .logo {
+    display: block;
+    flex-shrink: 0;
+  }
+  .logo img {
+    display: block;
+    width: 250px;
+    height: 40px;
+  }
+
+  .nav {
+    display: flex;
+    gap: 4px;
+    flex: 1;
+    min-width: 0;
+    font-size: 17px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .nav__item {
+    position: relative;
+  }
+  .nav__item--static {
+    position: static;
+  }
+  .nav__link {
+    display: flex;
+    align-items: center;
+    height: 44px;
+    padding: 0 10px;
+    border: 0;
+    border-radius: var(--radius);
+    background: transparent;
+    cursor: pointer;
+    font: 500 17px var(--font-body);
+    color: var(--c-text);
+  }
+  .nav__link:hover,
+  .nav__link[aria-expanded='true'] {
+    background: var(--c-hover);
+    color: var(--c-text);
+  }
+  .nav__mobile-extra {
+    display: none;
+  }
+
+  /* Mega menus */
+  .mega {
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    top: 100%;
+    z-index: 20;
+    pointer-events: none;
+  }
+  .mega--center {
+    display: flex;
+    justify-content: center;
+  }
+  .mega[hidden] {
+    display: none;
+  }
+  .mega__panel {
+    pointer-events: auto;
+    width: 100%;
+    max-width: 868px;
+    border-radius: var(--radius-lg);
+    background: #fff;
+    box-shadow: var(--shadow-menu);
+    padding: 40px 46px 44px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    white-space: normal;
+  }
+  .mega__title {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: -0.03em;
+  }
+  .mega__text {
+    font-size: 16px;
+    line-height: 1.4;
+  }
+  .mega__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 8px 60px;
+    margin-top: 28px;
+  }
+  .mega__grid--segments {
+    gap: 16px 60px;
+  }
+  .mega__link {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 6px 0;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 19px;
+    letter-spacing: -0.02em;
+  }
+  .site-header .mega__link:hover {
+    color: var(--c-accent);
+  }
+  .mega__link img {
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+  }
+  .mega__link .mega__seg-img {
+    width: 52px;
+    height: 52px;
+    border-radius: 10px;
+  }
+
+  /* Simple dropdowns */
+  .dropdown {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    z-index: 30;
+    min-width: 240px;
+    padding: 8px 0 12px;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-radius: 0 0 var(--radius) var(--radius);
+  }
+  .dropdown[hidden] {
+    display: none;
+  }
+  .dropdown a {
+    display: flex;
+    align-items: center;
+    height: 48px;
+    padding: 0 14px;
+    white-space: nowrap;
+    font-size: 20px;
+    font-weight: 500;
+  }
+  .site-header .dropdown a {
+    color: var(--c-text-3);
+  }
+  .site-header .dropdown a:hover {
+    color: var(--c-accent);
+  }
+
+  /* Right actions */
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 16px;
+    font-weight: 500;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .login {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .site-header .actions .btn {
+    color: #fff;
+  }
+
+  .burger {
+    display: none;
+  }
+
+  @media (max-width: 1099px) {
+    .mainbar__inner {
+      gap: 16px;
+    }
+    .logo img {
+      width: 180px;
+      height: 28.8px;
+    }
+    .login__label {
+      display: none;
+    }
+  }
+
+  /* Collapsed navigation */
+  @media (max-width: 899px) {
+    .topbar {
+      display: none;
+    }
+    .mainbar {
+      border-top: 0;
+    }
+    .mainbar__inner {
+      height: 72px;
+    }
+    .burger {
+      order: 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border: 0;
+      border-radius: var(--radius);
+      background: transparent;
+      color: var(--c-text);
+      cursor: pointer;
+    }
+    .actions {
+      margin-left: auto;
+      gap: 12px;
+    }
+    .nav {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      gap: 0;
+      padding: 8px var(--gutter) 24px;
+      background: #fff;
+      box-shadow: var(--shadow-menu);
+      max-height: calc(100vh - 72px);
+      overflow-y: auto;
+      white-space: normal;
+    }
+    .nav.is-open {
+      display: flex;
+    }
+    .nav__item,
+    .nav__item--static {
+      position: static;
+    }
+    .nav__link {
+      width: 100%;
+      height: 48px;
+    }
+    .mega,
+    .dropdown {
+      position: static;
+      pointer-events: auto;
+      padding: 0 0 8px 10px;
+    }
+    .mega__panel {
+      box-shadow: none;
+      padding: 0;
+    }
+    .mega__title,
+    .mega__text {
+      display: none;
+    }
+    .mega__grid {
+      grid-template-columns: 1fr;
+      margin-top: 0;
+      gap: 4px;
+    }
+    .mega__link {
+      font-size: 16px;
+      gap: 12px;
+    }
+    .mega__link img,
+    .mega__link .mega__seg-img {
+      width: 36px;
+      height: 36px;
+    }
+    .dropdown a {
+      font-size: 17px;
+      height: 44px;
+    }
+    .nav__mobile-extra {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 12px;
+      padding: 16px 10px 0;
+      border-top: 1px solid var(--c-border);
+      font-size: 16px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .actions .btn {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  if (header) {
+    const menus = Array.from(header.querySelectorAll<HTMLElement>('[data-menu]'));
+    const desktop = window.matchMedia('(min-width: 900px)');
+    let closeTimer: number | undefined;
+
+    const setOpen = (menu: HTMLElement, open: boolean) => {
+      const trigger = menu.querySelector<HTMLButtonElement>('[data-menu-trigger]');
+      const panel = menu.querySelector<HTMLElement>('[data-menu-panel]');
+      trigger?.setAttribute('aria-expanded', String(open));
+      if (panel) panel.hidden = !open;
+    };
+    const closeAll = (except?: HTMLElement) => menus.forEach((m) => m !== except && setOpen(m, false));
+
+    menus.forEach((menu) => {
+      const trigger = menu.querySelector<HTMLButtonElement>('[data-menu-trigger]');
+      trigger?.addEventListener('click', () => {
+        // On desktop the hover already opened it, so a click keeps it open instead of toggling.
+        const open = desktop.matches || trigger.getAttribute('aria-expanded') !== 'true';
+        closeAll(menu);
+        setOpen(menu, open);
+      });
+      menu.addEventListener('mouseenter', () => {
+        if (!desktop.matches) return;
+        window.clearTimeout(closeTimer);
+        closeAll(menu);
+        setOpen(menu, true);
+      });
+      menu.addEventListener('mouseleave', () => {
+        if (!desktop.matches) return;
+        closeTimer = window.setTimeout(() => setOpen(menu, false), 150);
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!header.contains(e.target as Node)) closeAll();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeAll();
+    });
+
+    const burger = header.querySelector<HTMLButtonElement>('[data-burger]');
+    const nav = header.querySelector<HTMLElement>('[data-nav]');
+    burger?.addEventListener('click', () => {
+      const open = !nav?.classList.contains('is-open');
+      nav?.classList.toggle('is-open', open);
+      burger.setAttribute('aria-expanded', String(open));
+    });
+  }
+</script>

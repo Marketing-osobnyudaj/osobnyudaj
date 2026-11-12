@@ -1,0 +1,441 @@
+---
+import LogoMarquee from '../LogoMarquee.astro';
+import { routes } from '../../data/site';
+
+const refs = [
+  {
+    logo: '/assets/ref-kosice.png',
+    name: 'MČ Košice - Staré Mesto',
+    quote:
+      '„Dovoľte nám poďakovať za úspešnú spoluprácu Vašej spoločnosti s mestskou časťou Košice-Staré Mesto od roku 2022. Oceňujeme Váš zodpovedný prístup pri poskytovaní služieb, ktoré pre nás zabezpečujete v oblasti ochrany osobných údajov ako aj kybernetickej bezpečnosti. Tešíme sa na ďalšiu spoluprácu.“',
+  },
+  {
+    logo: '/assets/ref-kezmarok.png',
+    name: 'Mesto Kežmarok',
+    quote:
+      '„Osobnyudaj.sk nám zabezpečuje komplexnu správu GDPR. Spolupráca je bezproblémová. Webové rozhranie je jednoducho ovládateľné a zrozumiteľné, ktoré pri nám uľahčuje prácu s údajmi zamestnancov a osôb evidovaných v systéme.“',
+  },
+  {
+    logo: '/assets/ref-handlova.png',
+    name: 'Mesto Handlová',
+    quote:
+      '„So spoločnosťou osobnyudaj.sk spolupracujeme dlhodobo v oblasti zabezpečenia GDPR a KB. Spracovali kompletnú dokumentáciu, ktorú pravidelne aktualizujú, prihlásením do klientskeho centra získavame komplexný prehľad a informácie z oblasti GDPR a KB, ako aj o vykonávaní pravidelných školení oprávnených osôb. Tento spôsob zabezpečenia povinností v oblasti GDPR a KB nám maximálne vyhovuje a môžeme ho odporučiť aj ostatným subjektom.“',
+  },
+];
+const loop = [...refs, ...refs];
+---
+
+<section class="refs container" data-carousel>
+  <div class="section-head section-head--center">
+    <div class="eyebrow">/ Referencie /</div>
+    <h2 class="h2 refs__title">Dôverujú nám tisíce klientov na celom Slovensku</h2>
+  </div>
+  <div class="refs__row">
+    <button type="button" class="refs__arrow" aria-label="Predchádzajúce" data-prev>‹</button>
+    <div class="refs__viewport">
+      <div class="refs__track" data-track>
+        {
+          loop.map((r, i) => (
+            <figure class="ref" aria-hidden={i >= refs.length ? 'true' : undefined}>
+              <div class="ref__logo">
+                <img src={r.logo} alt={r.name} loading="lazy" />
+              </div>
+              <blockquote>{r.quote}</blockquote>
+              <figcaption>
+                <div class="ref__rating">
+                  5,0 / 5 <span class="stars">★★★★★</span>
+                </div>
+                <div class="ref__name">{r.name}</div>
+              </figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </div>
+    <button type="button" class="refs__arrow" aria-label="Ďalšie" data-next>›</button>
+  </div>
+  <div class="refs__dots" data-dots></div>
+</section>
+
+<section class="stats container">
+  <div class="stats__row">
+    <div class="stats__nums">
+      <div class="stat">
+        <span class="stat__label">Viac ako</span>
+        <span class="stat__value" data-countup="13000">0+</span>
+        <span class="stat__label">klientov z celého Slovenska</span>
+      </div>
+      <div class="stat">
+        <span class="stat__value" data-countup="50">0+</span>
+        <span class="stat__label">odborníkov v tíme</span>
+      </div>
+    </div>
+    <div class="stats__map">
+      <img src="/assets/mapa-klientov.png" alt="Mapa klientov podľa krajov Slovenska" width="1652" height="892" loading="lazy" />
+    </div>
+  </div>
+  <a href="#" class="btn btn--primary btn--lg">Zobraziť mapu klientov</a>
+</section>
+
+<section class="trust container">
+  <div class="trust__title">Dôveruje nám viac ako 12 000 spokojných klientov</div>
+  <div class="trust__marquee"><LogoMarquee /></div>
+</section>
+
+<section class="ratings container">
+  <div class="trust__title ratings__title">Hodnotenia overených klientov</div>
+  <div class="ratings__grid">
+    <div class="rating">
+      <div class="rating__stars"><span class="stars">★★★★★</span>4,9 / 5</div>
+      <div class="rating__text rating__text--normal">Ako ste spokojný s našimi službami?</div>
+    </div>
+    <div class="rating">
+      <div class="rating__big">93 %</div>
+      <div class="rating__text">Klienti, ktorí by odporučili naše služby iným</div>
+    </div>
+    <div class="rating">
+      <div class="rating__big">97 %</div>
+      <div class="rating__text rating__text--wide">
+        Klienti, ktorí potvrdzujú vyšší pocit istoty v oblasti bezpečnosti po zavedení našich služieb.
+      </div>
+    </div>
+  </div>
+  <a href={routes.referencie} class="btn btn--primary ratings__btn">Ďalšie referencie</a>
+</section>
+
+<style>
+  /* References carousel */
+  .refs {
+    padding-top: 128px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 56px;
+  }
+  .refs__title {
+    max-width: 640px;
+  }
+  .refs__row {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .refs__arrow {
+    flex-shrink: 0;
+    width: 32px;
+    height: 48px;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    color: rgb(200, 204, 212);
+    font-size: 28px;
+  }
+  .refs__arrow:hover {
+    color: var(--c-text);
+  }
+  .refs__viewport {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+  }
+  .refs__track {
+    --per: 3;
+    --gap: 36px;
+    --i: 0;
+    display: flex;
+    gap: var(--gap);
+    transition: transform 0.45s ease;
+    transform: translateX(calc(var(--i) * -1 * ((100% - var(--gap) * (var(--per) - 1)) / var(--per) + var(--gap))));
+  }
+  .ref {
+    flex: 0 0 calc((100% - var(--gap) * (var(--per) - 1)) / var(--per));
+    min-height: 606px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 36px 30px 40px;
+    border-radius: var(--radius-lg);
+    background: rgb(236, 242, 253);
+  }
+  .ref__logo {
+    height: 110px;
+    display: flex;
+    align-items: center;
+  }
+  .ref__logo img {
+    max-height: 100px;
+    max-width: 160px;
+    width: auto;
+    height: auto;
+  }
+  .ref blockquote {
+    margin: 0;
+    flex: 1;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--c-text-2);
+  }
+  .ref figcaption {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 32px;
+  }
+  .ref__rating {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 16px;
+    color: rgb(232, 178, 0);
+  }
+  .ref__rating .stars {
+    letter-spacing: 1px;
+    font-size: 17px;
+  }
+  .ref__name {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: -0.02em;
+    color: var(--c-text);
+  }
+  .refs__dots {
+    display: flex;
+    gap: 8px;
+  }
+  .refs__dots :global(button) {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border: 0;
+    border-radius: 4px;
+    cursor: pointer;
+    background: rgb(200, 214, 240);
+    transition: width 0.2s;
+  }
+  .refs__dots :global(button[aria-current='true']) {
+    width: 24px;
+    background: var(--c-primary);
+  }
+  @media (max-width: 1099px) {
+    .refs__track {
+      --per: 2;
+    }
+  }
+  @media (max-width: 759px) {
+    .refs__track {
+      --per: 1;
+    }
+    .ref {
+      min-height: 0;
+    }
+  }
+
+  /* Stats */
+  .stats {
+    padding-top: 96px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 48px;
+  }
+  .stats__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 68px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  .stats__nums {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    width: 248px;
+    color: var(--c-navy);
+  }
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .stat__label {
+    font-size: 19px;
+    font-weight: 500;
+  }
+  .stat__value {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 56px;
+    line-height: 1;
+    color: var(--c-accent);
+    font-variant-numeric: tabular-nums;
+  }
+  .stats__map {
+    flex: 1;
+    min-width: min(100%, 300px);
+    max-width: 826px;
+  }
+  .stats__map img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* Logos + ratings */
+  .trust,
+  .ratings {
+    padding-top: 96px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+  }
+  .trust__title {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: -0.02em;
+  }
+  .trust__marquee {
+    width: 100%;
+    margin-top: 24px;
+  }
+  .ratings__title {
+    color: rgb(37, 40, 71);
+  }
+  .ratings__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+    gap: 36px;
+    width: 100%;
+  }
+  .rating {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    min-height: 182px;
+    padding: 28px 24px 32px;
+    border-radius: var(--radius-lg);
+    background: var(--c-tint);
+  }
+  .rating__stars {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    height: 58px;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--c-star);
+  }
+  .rating__stars .stars {
+    font-size: 20px;
+    letter-spacing: 1px;
+  }
+  .rating__big {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 58px;
+    letter-spacing: -0.02em;
+    color: var(--c-primary-light);
+  }
+  .rating__text {
+    max-width: 200px;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.5;
+    color: var(--c-text-2);
+  }
+  .rating__text--normal {
+    font-weight: 400;
+  }
+  .rating__text--wide {
+    max-width: 240px;
+  }
+  .ratings__btn {
+    margin-top: 16px;
+  }
+</style>
+
+<script>
+  // References carousel
+  document.querySelectorAll<HTMLElement>('[data-carousel]').forEach((root) => {
+    const track = root.querySelector<HTMLElement>('[data-track]');
+    const dots = root.querySelector<HTMLElement>('[data-dots]');
+    if (!track || !dots) return;
+    const total = track.children.length;
+    let i = 0;
+
+    const perView = () => Number(getComputedStyle(track).getPropertyValue('--per')) || 3;
+    const max = () => Math.max(0, total - perView());
+
+    const render = () => {
+      i = Math.min(i, max());
+      track.style.setProperty('--i', String(i));
+      if (dots.children.length !== max() + 1) {
+        dots.replaceChildren(
+          ...Array.from({ length: max() + 1 }, (_, k) => {
+            const b = document.createElement('button');
+            b.type = 'button';
+            b.setAttribute('aria-label', `Snímka ${k + 1}`);
+            b.addEventListener('click', () => {
+              i = k;
+              render();
+            });
+            return b;
+          }),
+        );
+      }
+      Array.from(dots.children).forEach((d, k) => d.setAttribute('aria-current', String(k === i)));
+    };
+
+    root.querySelector('[data-prev]')?.addEventListener('click', () => {
+      i = i <= 0 ? max() : i - 1;
+      render();
+    });
+    root.querySelector('[data-next]')?.addEventListener('click', () => {
+      i = i >= max() ? 0 : i + 1;
+      render();
+    });
+    window.addEventListener('resize', render);
+    render();
+  });
+
+  // Count-up numbers
+  const counters = Array.from(document.querySelectorAll<HTMLElement>('[data-countup]'));
+  if (counters.length) {
+    const run = () => {
+      const t0 = performance.now();
+      const d = 2000;
+      const tick = (now: number) => {
+        const p = Math.min(1, (now - t0) / d);
+        const eased = 1 - Math.pow(1 - p, 3);
+        counters.forEach((el) => {
+          el.textContent = `${Math.round(Number(el.dataset.countup) * eased)}+`;
+        });
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    };
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((e) => e.isIntersecting)) {
+            io.disconnect();
+            run();
+          }
+        },
+        { threshold: 0.3 },
+      );
+      io.observe(counters[0]);
+    } else run();
+  }
+</script>

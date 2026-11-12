@@ -1,0 +1,97 @@
+---
+const benefits = [
+  {
+    icon: '/assets/c-ic-rocket-a.svg',
+    title: 'Škálovateľné služby',
+    text: 'Naše služby sa prispôsobia vašim aktuálnym potrebám. Rozšírite ich alebo zúžite presne podľa toho, čo vaša organizácia práve vyžaduje – rýchlo, jednoducho a bez zbytočných komplikácií.',
+  },
+  {
+    icon: '/assets/c-ic-library.svg',
+    title: 'Aktuálna legislatíva',
+    text: 'S nami máte istotu, že všetky služby a dokumenty, ktoré Vám dodáme sú vypracované na základe aktuálnej legislatívy.',
+  },
+  {
+    icon: '/assets/c-ic-headset-a.svg',
+    title: 'Certifikačné školenia',
+    text: 'Cez naše certifikačné školenia prešlo už 500 000 osôb. Osobne aj online prinášame praktické riešenia a podporu, ktorá pokračuje aj cez materiály na samoštúdium',
+  },
+  {
+    icon: '/assets/c-ic-umbrella.svg',
+    title: 'Poistenie do 1 000 000 €',
+    text: 'Vaša istota je krytá. Vďaka poisteniu až do 1 milióna eur máte garanciu, že aj v prípade neočakávaných udalostí zostanete v bezpečí.',
+  },
+  {
+    icon: '/assets/c-ic-business.svg',
+    title: '13 000+ spokojných klientov',
+    text: 'Viac ako 13 000 spokojných klientov je dôkazom, že naše know-how funguje v každej oblasti. Rýchlo, spoľahlivo a bez kompromisov.',
+  },
+  {
+    icon: '/assets/c-ic-school-a.svg',
+    title: '50+ členný tím odborníkov',
+    text: 'Za našimi službami stojí viac ako 50 odborníkov. Každý z nich prináša skúsenosti a know-how, na ktoré sa môžete spoľahnúť',
+  },
+];
+---
+
+<section class="benefits container">
+  <div class="section-head">
+    <div class="eyebrow">/ Benefity /</div>
+    <h2 class="h2">Overené riešenia, ktoré fungujú</h2>
+    <p class="lead">
+      My nesľubujeme, my konáme. Klienti oceňujú naše znalosti, vyľadené procesy a rýchlu implementáciu požadovaných služieb.
+    </p>
+  </div>
+  <div class="benefits__grid">
+    {
+      benefits.map((b) => (
+        <div class="benefit">
+          <div class="benefit__head">
+            <img src={b.icon} alt="" width="32" height="32" />
+            <h3>{b.title}</h3>
+          </div>
+          <p>{b.text}</p>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .benefits {
+    padding-top: 128px;
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+  }
+  .benefits__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+    gap: 64px 30px;
+  }
+  .benefit {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-right: 30px;
+  }
+  .benefit__head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .benefit__head img {
+    flex-shrink: 0;
+  }
+  .benefit h3 {
+    margin: 0;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1.2;
+  }
+  .benefit p {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.4;
+  }
+</style>

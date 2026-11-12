@@ -1,0 +1,183 @@
+---
+// Pin positions on the 823×405 map artwork (from the design).
+const pins = [
+  [0, 236.911], [68.662, 192.544], [141.548, 206.278], [339.177, 0], [459.969, 135.288],
+  [303.744, 167.499], [464.8, 51.538], [213.551, 309.229], [12.23, 141.729], [403.6, 206.152],
+  [141.548, 81.629], [239.794, 14.017], [295.779, 116.489], [596.843, 61.555], [596.843, 125.989],
+].map(([x, y]) => ({
+  left: ((29.645 + x) / 823) * 100,
+  top: ((37.643 + y) / 405.398) * 100,
+}));
+---
+
+<section class="regions">
+  <div class="regions__bg" aria-hidden="true"></div>
+  <div class="regions__line" aria-hidden="true"></div>
+  <div class="regions__inner container">
+    <div class="section-head section-head--center">
+      <div class="eyebrow eyebrow--on-blue">/ Kontakty /</div>
+      <h2 class="h2 h2--sm regions__title">15 regionálnych zastúpení po celom Slovensku</h2>
+      <p class="regions__lead">
+        Naše pobočky nie sú len kancelárie – sú to centrá, kde sa s vami stretávame, školíme a budujeme dlhodobé partnerstvá.
+      </p>
+    </div>
+    <div class="regions__body">
+      <div class="regions__facts">
+        <div class="fact">
+          <img src="/assets/c-ic-rocket-big.svg" alt="" width="66" height="66" />
+          <span>Rýchla podpora pre váš región, sme od vás maximálne 50 km</span>
+        </div>
+        <div class="fact">
+          <img src="/assets/c-ic-group-big.svg" alt="" width="73" height="53" />
+          <span>Rozumieme špecifickým potrebám a zvyklostiam vo vašej lokalite</span>
+        </div>
+      </div>
+      <div class="regions__map-col">
+        <div class="map">
+          <div class="map__shape">
+            <img src="/assets/c-map-sk.svg" alt="Mapa Slovenska s regionálnymi zastúpeniami" loading="lazy" />
+          </div>
+          {
+            pins.map((p) => (
+              <img
+                src="/assets/c-pin.svg"
+                alt=""
+                class="map__pin"
+                style={`left:${p.left}%;top:${p.top}%`}
+                loading="lazy"
+              />
+            ))
+          }
+        </div>
+        <form class="psc" data-psc>
+          <label for="psc" class="visually-hidden">PSČ</label>
+          <input id="psc" name="psc" placeholder="Zadajte vaše PSČ" inputmode="numeric" autocomplete="postal-code" />
+          <button type="submit" class="btn btn--primary btn--sm">Zobraziť kontakt</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .regions {
+    position: relative;
+    padding: 200px 0 220px;
+    color: #fff;
+  }
+  .regions__bg {
+    position: absolute;
+    inset: 0;
+    background: var(--grad-blue);
+    clip-path: polygon(0 90px, 100% 0, 100% 92%, 0 100%);
+  }
+  .regions__line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 97px;
+    background: rgb(45, 66, 160);
+    clip-path: polygon(0 90px, 100% 0, 100% 7px, 0 97px);
+  }
+  .regions__inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 56px;
+  }
+  .regions__title {
+    color: #fff;
+  }
+  .regions__lead {
+    margin: 0;
+    font-size: 20px;
+    line-height: 1.4;
+    color: var(--c-pale);
+  }
+  .regions__body {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 36px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  .regions__facts {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    width: 249px;
+  }
+  .fact {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-size: 19px;
+    font-weight: 500;
+    line-height: 1.2;
+    color: var(--c-pale);
+  }
+  .regions__map-col {
+    flex: 1;
+    min-width: min(100%, 300px);
+    max-width: 823px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+  .map {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 823 / 405;
+  }
+  .map__shape {
+    position: absolute;
+    inset: 0;
+    filter: drop-shadow(0 28.63px 28.63px rgba(0, 0, 0, 0.14)) drop-shadow(0 6.871px 16.033px rgba(0, 0, 0, 0.16));
+  }
+  .map__shape img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .map__pin {
+    position: absolute;
+    width: 3.734%;
+    height: 9.352%;
+  }
+  .psc {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    max-width: 478px;
+    padding: 12px 12px 12px 24px;
+    border-radius: var(--radius-lg);
+    background: rgba(255, 255, 255, 0.85);
+    box-shadow: 0 0 2px 0 rgba(163, 170, 181, 0.7), 0 32px 19px 0 rgba(0, 0, 0, 0.08), 0 14px 14px 0 rgba(0, 0, 0, 0.14),
+      0 4px 8px 0 rgba(0, 0, 0, 0.16);
+  }
+  .psc input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    font: 500 17px var(--font-body);
+    color: var(--c-text);
+  }
+  .psc .btn {
+    font-size: 17px;
+  }
+</style>
+
+<script>
+  // TODO: look up the regional office by postal code.
+  document.querySelectorAll<HTMLFormElement>('[data-psc]').forEach((f) =>
+    f.addEventListener('submit', (e) => e.preventDefault()),
+  );
+</script>
