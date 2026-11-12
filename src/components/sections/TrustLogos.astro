@@ -5,12 +5,13 @@ import { routes } from '../../data/site';
 interface Props {
   /** Show the "Vybrané referencie" link under the title. */
   showLink?: boolean;
+  title?: string;
 }
-const { showLink = false } = Astro.props;
+const { showLink = false, title = 'Dôveruje nám viac ako 12 000 spokojných klientov' } = Astro.props;
 ---
 
 <section class:list={["trust container", { "trust--top": showLink }]}>
-  <div class="trust__title">Dôveruje nám viac ako 12 000 spokojných klientov</div>
+  <div class="trust__title">{title}</div>
   {showLink && <a href={routes.referencie} class="trust__link">Vybrané referencie →</a>}
   <div class="trust__marquee"><LogoMarquee /></div>
 </section>

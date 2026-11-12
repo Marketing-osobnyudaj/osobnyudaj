@@ -1,0 +1,146 @@
+---
+import type { Included } from '../../data/service-pages';
+
+interface Props {
+  items: Included[];
+}
+const { items } = Astro.props;
+const half = Math.ceil(items.length / 2);
+const columns = [items.slice(0, half), items.slice(half)];
+---
+
+<section id="info" class="included">
+  <div class="included__box">
+    <div class="included__head">
+      <svg width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M32 6 58 19 32 32 6 19Z"></path><path d="M6 32l26 13 26-13"></path><path d="M6 45l26 13 26-13"></path></svg>
+      <h2>Čo všetko dostanete v cene</h2>
+    </div>
+    <div class="included__grid">
+      {
+        columns.map((col) => (
+          <ul class="included__col">
+            {col.map((f) => (
+              <li>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" />
+                  <circle cx="12" cy="12" r="4" fill="currentColor" />
+                </svg>
+                <div>
+                  <strong>{f.t}</strong>
+                  <br />
+                  {f.d}
+                </div>
+              </li>
+            ))}
+          </ul>
+        ))
+      }
+    </div>
+    <div class="included__cta">
+      <div class="included__cta-title">Mám záujem o bezplatnú cenovú ponuku</div>
+      <a href="#cenova-ponuka" class="btn btn--primary included__btn">Bezplatná cenová ponuka</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .included {
+    max-width: 1242px;
+    margin: 0 auto;
+    padding: 32px 20px 0;
+    box-sizing: content-box;
+  }
+  .included__box {
+    border-radius: var(--radius-lg);
+    background: rgb(235, 243, 255);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 64px;
+    padding: 64px clamp(20px, 8vw, 120px) 80px;
+  }
+  .included__head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: var(--c-primary-light);
+  }
+  .included__head h2 {
+    margin: 0;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 1.2;
+    text-align: center;
+    color: var(--c-text-2);
+  }
+  .included__grid {
+    align-self: stretch;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    column-gap: 90px;
+    row-gap: 24px;
+  }
+  .included__col {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .included__col li {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    min-height: 48px;
+    color: var(--c-text-2);
+  }
+  .included__col svg {
+    flex-shrink: 0;
+    color: var(--c-primary);
+  }
+  .included__col li div {
+    flex: 1;
+    font-size: 17px;
+    line-height: 1.4;
+  }
+  .included__cta {
+    max-width: 651px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding: 32px 0;
+  }
+  .included__cta-title {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    text-align: center;
+    color: var(--c-navy);
+  }
+  .included__btn {
+    height: 54px;
+    padding: 0 40px;
+    max-width: 100%;
+    white-space: normal;
+    text-align: center;
+  }
+  @media (max-width: 760px) {
+    .included__box {
+      gap: 40px;
+      padding-top: 48px;
+      padding-bottom: 48px;
+    }
+    .included__cta {
+      padding: 0;
+    }
+    .included__cta-title {
+      font-size: 24px;
+    }
+  }
+</style>

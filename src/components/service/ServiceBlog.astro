@@ -1,0 +1,144 @@
+---
+// Blog teaser filtered by the page's category (variant of sections/BlogTeaser with an empty state).
+import { routes } from '../../data/site';
+import { blogPostsFor } from '../../data/service-pages';
+
+interface Props {
+  category?: string;
+  title?: string;
+}
+const { category, title = 'Všetko čo chcete vedieť o online ochrane dát a báli ste sa opýtať' } = Astro.props;
+const posts = blogPostsFor(category);
+---
+
+<section class="blog">
+  <div class="blog__bg" aria-hidden="true"></div>
+  <div class="blog__line" aria-hidden="true"></div>
+  <div class="blog__inner container">
+    <div class="section-head">
+      <div class="eyebrow">/ Blog /</div>
+      <h2 class="h2">{title}</h2>
+      <p class="lead">Vytvárame riešenia s potenciálom rastu a škálovateľnosti vo všetkých vrstvách IT služieb.</p>
+      <a href={routes.blog} class="link-arrow">Naučte sa viac v našom blogu →</a>
+    </div>
+    <div class="posts">
+      {
+        posts.map((p) => (
+          <a href={routes.blog} class="post">
+            <div class="post__img">
+              <img src={p.img} alt="" loading="lazy" />
+            </div>
+            <div class="post__tags">
+              <span>{p.cat}</span>
+              <span>{p.tag}</span>
+            </div>
+            <h3 class="post__title">{p.title}</h3>
+            <div class="post__meta">
+              Jakub Szabo
+              <br />
+              18. augusta 2020
+            </div>
+          </a>
+        ))
+      }
+      {posts.length === 0 && <p class="posts__empty">V tejto kategórii zatiaľ nie sú žiadne články.</p>}
+    </div>
+  </div>
+</section>
+
+<style>
+  .blog {
+    position: relative;
+    margin-top: 128px;
+    padding: 200px 0 160px;
+  }
+  .blog__bg {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 760px;
+    background: linear-gradient(
+      180deg,
+      rgb(232, 240, 252) 0%,
+      rgb(234, 241, 252) 25%,
+      rgba(244, 247, 253, 0.8) 70%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    clip-path: polygon(0 92px, 100% 12px, 100% 100%, 0 100%);
+    pointer-events: none;
+  }
+  .blog__line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 100px;
+    background: linear-gradient(90deg, var(--c-navy) 0%, var(--c-primary) 100%);
+    clip-path: polygon(0 89px, 100% 9px, 100% 15px, 0 95px);
+    pointer-events: none;
+  }
+  .blog__inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+  }
+  .posts {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+    gap: 30px;
+  }
+  .posts__empty {
+    grid-column: 1 / -1;
+    margin: 0;
+    font-size: 16px;
+    color: rgb(110, 118, 132);
+  }
+  .post {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    color: var(--c-text);
+  }
+  .post:hover {
+    color: var(--c-navy);
+  }
+  .post__img {
+    aspect-ratio: 394 / 260;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--c-pale);
+  }
+  .post__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .post__tags {
+    display: flex;
+    gap: 16px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .post__tags span:first-child {
+    color: var(--c-accent);
+  }
+  .post__tags span:last-child {
+    color: var(--c-primary-light);
+  }
+  .post__title {
+    margin: 0;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    text-wrap: pretty;
+  }
+  .post__meta {
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--c-muted);
+  }
+</style>

@@ -1,0 +1,264 @@
+---
+import { heroPartners } from '../../data/service-pages';
+
+interface Props {
+  label: string;
+  title: string;
+  icon: string;
+}
+const { label, title, icon } = Astro.props;
+---
+
+<section class="hero">
+  <div class="hero__content container">
+    <div class="hero__label">
+      <img src={icon} alt="" width="48" height="48" />
+      <span>{label}</span>
+    </div>
+    <h1 class="hero__title">{title}</h1>
+    <div class="hero__ctas">
+      <a href="#cenova-ponuka" class="btn btn--primary btn--shadow">Vyskúšať zadarmo</a>
+      <a href="#cenova-ponuka" class="btn btn--outline-light">Bezplatná cenová ponuka</a>
+      <a href="#info" class="hero__more">Viac informácií</a>
+    </div>
+    <div class="hero__proof">
+      <div class="proof">
+        <div class="proof__avatars">
+          <img src="/img/avatar-1.jpg" alt="" width="40" height="40" />
+          <img src="/img/avatar-2.jpg" alt="" width="40" height="40" />
+          <img src="/img/avatar-3.jpg" alt="" width="40" height="40" />
+        </div>
+        <div class="proof__title">4,9 / 5 <span class="stars" aria-label="5 hviezdičiek">★★★★★</span></div>
+        <div class="proof__text">Priemerné hodnotenie viac ako 1700 overených klientov</div>
+      </div>
+      <div class="proof proof--partner" data-partners>
+        {
+          heroPartners.map((p, i) => (
+            <div class="partner" data-partner hidden={i !== 0}>
+              <img src={p.img} alt={p.name} width="40" height="40" class="proof__logo" loading="lazy" />
+              <div class="proof__title">{p.name}</div>
+              <div class="proof__text proof__text--partner">{p.text}</div>
+            </div>
+          ))
+        }
+        <div class="proof__dots">
+          {
+            heroPartners.map((p, i) => (
+              <button type="button" aria-label={`Partner ${p.name}`} aria-current={i === 0 ? 'true' : 'false'} data-partner-dot={i} />
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero__image" aria-hidden="true">
+    <img src="/img/2ac9866d4c010eeb.png" alt="" />
+  </div>
+  <div class="hero__cut" aria-hidden="true"></div>
+  <div class="hero__stripe" aria-hidden="true"></div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    background: var(--grad-blue);
+    color: #fff;
+    overflow: hidden;
+  }
+  .hero__content {
+    position: relative;
+    z-index: 1;
+    padding-top: 96px;
+    padding-bottom: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  .hero__label {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: -0.02em;
+  }
+  .hero__label img {
+    display: block;
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+  }
+  .hero__title {
+    margin: 0;
+    max-width: 640px;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 56px;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    text-wrap: pretty;
+  }
+  .hero__ctas {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .hero__more {
+    display: flex;
+    align-items: center;
+    height: 56px;
+    padding: 0 12px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 17px;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .hero__more:hover {
+    color: var(--c-pale);
+  }
+  .hero__proof {
+    display: flex;
+    gap: 72px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+  }
+  .proof,
+  .partner {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .proof--partner {
+    width: 240px;
+    max-width: 100%;
+  }
+  .partner[hidden] {
+    display: none;
+  }
+  .proof__avatars {
+    display: flex;
+  }
+  .proof__avatars img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 0 2px var(--c-primary);
+  }
+  .proof__avatars img + img {
+    margin-left: -10px;
+  }
+  .proof__logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: contain;
+    background: #fff;
+  }
+  .proof__title {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 17px;
+  }
+  .proof__text {
+    max-width: 220px;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  .proof__text--partner {
+    min-height: 40px;
+  }
+  .proof__dots {
+    display: flex;
+    gap: 6px;
+    margin-top: 4px;
+  }
+  .proof__dots button {
+    width: 6px;
+    height: 6px;
+    padding: 0;
+    border: 0;
+    border-radius: 3px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.5);
+    transition: width 0.2s;
+  }
+  .proof__dots button[aria-current='true'] {
+    width: 24px;
+    background: #fff;
+  }
+
+  .hero__image {
+    position: absolute;
+    top: 0;
+    right: max(0px, calc((100vw - 1440px) / 2));
+    width: min(760px, 55vw);
+    height: 720px;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .hero__image img {
+    position: absolute;
+    left: -342px;
+    top: -9px;
+    width: 1217px;
+    height: 1699px;
+    max-width: none;
+    object-fit: cover;
+  }
+  .hero__cut {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 140px;
+    background: #fff;
+    clip-path: polygon(0 100%, 100% 18%, 100% 100%);
+  }
+  .hero__stripe {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 140px;
+    background: var(--grad-accent);
+    clip-path: polygon(0 85%, 100% 3%, 100% 18%, 0 100%);
+  }
+
+  @media (max-width: 1099px) {
+    .hero__image {
+      display: none;
+    }
+  }
+  @media (max-width: 760px) {
+    .hero__content {
+      padding-top: 56px;
+      padding-bottom: 140px;
+    }
+    .hero__title {
+      font-size: 38px;
+    }
+    .hero__proof {
+      gap: 32px;
+    }
+  }
+</style>
+
+<script>
+  // Partner rotator in the hero (dots switch the visible partner).
+  document.querySelectorAll<HTMLElement>('[data-partners]').forEach((root) => {
+    const items = Array.from(root.querySelectorAll<HTMLElement>('[data-partner]'));
+    const dots = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-partner-dot]'));
+    dots.forEach((dot, k) =>
+      dot.addEventListener('click', () => {
+        items.forEach((el, j) => (el.hidden = j !== k));
+        dots.forEach((d, j) => d.setAttribute('aria-current', String(j === k)));
+      }),
+    );
+  });
+</script>

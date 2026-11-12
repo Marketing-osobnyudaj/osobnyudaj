@@ -1,0 +1,38 @@
+---
+// Shared template for the service pages (GDPR, DPO, Smernice, KB, …); see data/service-pages.ts.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ServiceHero from './ServiceHero.astro';
+import ServiceIncluded from './ServiceIncluded.astro';
+import ServiceBlog from './ServiceBlog.astro';
+import ServiceFaq from './ServiceFaq.astro';
+import Benefits from '../home/Benefits.astro';
+import TrustLogos from '../sections/TrustLogos.astro';
+import CtaBanner from '../sections/CtaBanner.astro';
+import RegionalContacts from '../sections/RegionalContacts.astro';
+import ReferencesCarousel from '../sections/ReferencesCarousel.astro';
+import ClientStats from '../sections/ClientStats.astro';
+import Ratings from '../sections/Ratings.astro';
+import QuoteForm from '../sections/QuoteForm.astro';
+import type { ServicePageData } from '../../data/service-pages';
+
+interface Props {
+  data: ServicePageData;
+}
+const { data } = Astro.props;
+---
+
+<BaseLayout title={data.title}>
+  <ServiceHero label={data.label} title={data.h1} icon={data.icon} />
+  <TrustLogos showLink title="Dôveruje nám viac ako 13 000 spokojných klientov" />
+  <ServiceIncluded items={data.included} />
+  <Benefits />
+  <CtaBanner />
+  <ServiceBlog category={data.blogCategory} />
+  <ServiceFaq page={data.page} />
+  <RegionalContacts />
+  <ReferencesCarousel />
+  <ClientStats />
+  <TrustLogos />
+  <Ratings />
+  <QuoteForm />
+</BaseLayout>
